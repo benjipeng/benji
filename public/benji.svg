@@ -7,10 +7,20 @@ Filters: wet (soft wet-in-wet bleed); dry (crisp edge, pigment pooled at the rim
 <title>Benji Peng, watercolor portrait</title>
 <!-- Night: benji.svg#night shows the night ground behind the sitter, in the night tokens below. -->
 <style>#art{--night-ground:#1c211b;--night-deep:#0e1512;--night-moon:#c9d3d6;--night-leaf:#56705f}#night-bg{display:none}#night:target~#art #night-bg{display:inline}</style>
+<!-- WebKit: Safari blurs filters inside an image, so there the figure and paper go unfiltered and the washes lose their blur. -->
+<style>@supports (font:-apple-system-body){[filter="url(#wet)"]{filter:url(#wet-crisp)}[filter="url(#dry)"]{filter:none}[filter="url(#face)"]{filter:none}[filter="url(#cloth)"]{filter:none}[filter="url(#inked)"]{filter:none}[filter="url(#paper)"]{filter:none}}</style>
 <defs><filter id="wet" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
  <feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="3" seed="7" result="n"/>
  <feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G" result="d"/>
  <feGaussianBlur in="d" stdDeviation="2.6" result="b"/>
+ <feTurbulence type="fractalNoise" baseFrequency=".014" numOctaves="3" seed="19" result="m"/>
+ <feColorMatrix in="m" type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 2.4 0 0 0 -.42" result="ma"/>
+ <feComposite in="b" in2="ma" operator="in"/>
+</filter>
+<filter id="wet-crisp" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
+ <feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="3" seed="7" result="n"/>
+ <feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G" result="d"/>
+ <feOffset in="d" result="b"/>
  <feTurbulence type="fractalNoise" baseFrequency=".014" numOctaves="3" seed="19" result="m"/>
  <feColorMatrix in="m" type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 2.4 0 0 0 -.42" result="ma"/>
  <feComposite in="b" in2="ma" operator="in"/>

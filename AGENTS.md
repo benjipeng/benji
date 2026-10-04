@@ -31,8 +31,11 @@ Benji Peng's professional contact card at `benji.appcubic.com`, published from
   behind the sitter and cut around the silhouette, so the sitter keeps the
   day painting's colors. Nothing covers or grades the figure. It shows as
   `/benji.svg#night`. The page picks the rendition before first paint and on
-  each theme switch, from one fetch. `benji.webp` stays for the JSON-LD
-  image.
+  each theme switch, from one fetch. WebKit (Safari and every iOS browser)
+  blurs filters inside an image, so a rule in the SVG, applied only where
+  `font: -apple-system-body` is supported, draws the figure and paper
+  unfiltered and the washes without blur there. `benji.webp` stays for the
+  JSON-LD image.
 - Page utilities sit in the top corners: a `</>` source code link to this
   repository on the left, the sun and moon toggle on the right.
 - Background: a garden drawn as a botanical plate, with ink contours (thin on
@@ -126,7 +129,8 @@ Benji Peng's professional contact card at `benji.appcubic.com`, published from
   garden, and the theme toggle.
 - The card fits the fixed stage with no horizontal scroll or layout shift at
   360x640, 390x844, 768x1024, 844x390, 1024x768, 1440x900, 1920x1080, and
-  2560x1440.
+  2560x1440. Check those sizes in Chrome and in WebKit (Playwright's WebKit
+  stands in for Safari), since the two draw SVG filters differently.
 - Honor `prefers-reduced-motion`: the garden shows fully grown and still, with
   no cue and no autoplay.
 - When links or copy change, update the descriptions and JSON-LD in
