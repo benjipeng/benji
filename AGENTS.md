@@ -14,7 +14,7 @@ Benji Peng's professional contact card at `benji.appcubic.com`, published from
 ## Design
 
 - The card is fixed and stays distinct from benji.renocrypt.com: centered,
-  system font stacks (serif name, mono eyebrow, sans body), avatar with an
+  system font stacks (serif name, sans body), avatar with an
   offset disc, sun and moon toggle.
 - Links sit in rounded rows split by hairline dividers: GitHub and Google
   Scholar, LinkedIn and Instagram, then X, Discord, and Telegram. App
@@ -103,6 +103,10 @@ Benji Peng's professional contact card at `benji.appcubic.com`, published from
   Nothing slides in or floats. Every visit starts at the top. Switching the
   theme spaces the incoming garden, fetches it on its first showing, and grows
   it in from nothing over about two seconds.
+- The portrait stays away when the page opens, so the name and links come
+  first, and fades in partway through the scroll. A class the head script
+  sets keeps it unseen until `main.ts` takes over, and it shows anyway after
+  a few seconds if the script never runs.
 - Scroll cue: a seedling and "Scroll to grow the garden", pinned at the top
   center on a frosted patch tinted with the paper. The seedling grows with the
   scroll and the cue fades out before the rising card reaches it. It bobs once
@@ -132,12 +136,12 @@ Benji Peng's professional contact card at `benji.appcubic.com`, published from
   2560x1440. Check those sizes in Chrome and in WebKit (Playwright's WebKit
   stands in for Safari), since the two draw SVG filters differently.
 - Honor `prefers-reduced-motion`: the garden shows fully grown and still, with
-  no cue and no autoplay.
+  the portrait from the start, no cue, and no autoplay.
 - When links or copy change, update the descriptions and JSON-LD in
   `index.html`, `public/llms.txt`, and `public/sitemap.xml` together.
 - The share image `public/social.jpg` (1200x630, used by `og:image` and
   `twitter:image`) is the page in the day theme with the garden fully grown and
-  only the portrait, name, and title over it. Take it again when the look
+  only the portrait and name over it. Take it again when the look
   changes.
 - The `theme-color` metas carry each theme's `--bg` for the first paint.
   `main.ts` then sets them from the token for the theme on show.

@@ -106,6 +106,19 @@ body {
 
 /* Card */
 
+/* The portrait stays away when the page opens, and main.ts fades it in with the scroll. Until
+   the script takes over, it waits unseen, and it shows anyway if the script never runs. */
+.reveal .avatar-frame {
+  opacity: 0;
+  animation: reveal-anyway 0.6s 4s forwards;
+}
+
+@keyframes reveal-anyway {
+  to {
+    opacity: 1;
+  }
+}
+
 .card {
   width: min(100%, 23.5rem);
   display: flex;
@@ -171,21 +184,12 @@ body {
 }
 
 h1 {
-  margin: 1rem 0 0.4rem;
+  margin: 1rem 0 0;
   font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
   font-size: clamp(2.1rem, 5vw, 3.05rem);
   line-height: 1.1;
   font-weight: 700;
   letter-spacing: -0.02em;
-}
-
-.eyebrow {
-  margin: 0;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--accent-ink);
 }
 
 /* Rows stack in one grid. Its middle columns hold the project rows' icons and names, so those
@@ -487,7 +491,7 @@ footer a:hover {
   }
 
   h1 {
-    margin: 0.6rem 0 0.25rem;
+    margin: 0.6rem 0 0;
     font-size: clamp(1.8rem, 4.4vw, 2.4rem);
   }
 

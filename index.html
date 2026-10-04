@@ -28,12 +28,12 @@
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Watercolor portrait of Benji Peng over a hand-drawn tropical garden, with the name Benji Peng, Ph.D., Scientist and Entrepreneur." />
+    <meta property="og:image:alt" content="Watercolor portrait of Benji Peng over a hand-drawn tropical garden, with the name Benji Peng, Ph.D." />
     <meta property="profile:first_name" content="Benji" />
     <meta property="profile:last_name" content="Peng" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://benji.appcubic.com/social.jpg" />
-    <meta name="twitter:image:alt" content="Watercolor portrait of Benji Peng over a hand-drawn tropical garden, with the name Benji Peng, Ph.D., Scientist and Entrepreneur." />
+    <meta name="twitter:image:alt" content="Watercolor portrait of Benji Peng over a hand-drawn tropical garden, with the name Benji Peng, Ph.D." />
     <meta name="twitter:creator" content="@benjipeng" />
 
     <script type="application/ld+json">
@@ -79,6 +79,8 @@
         } catch {
           document.documentElement.dataset.theme = "light";
         }
+        // The portrait stays away when the page opens, until main.ts fades it in with the scroll.
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("reveal");
       })();
     </script>
   </head>
@@ -115,7 +117,6 @@
                 </span>
               </div>
               <h1>Benji Peng, Ph.D.</h1>
-              <p class="eyebrow">Scientist &amp; Entrepreneur</p>
             </header>
             <nav class="links" aria-label="Links">
               <div class="link-row">

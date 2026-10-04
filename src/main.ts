@@ -89,13 +89,14 @@ if (!still) {
   });
 }
 
-// Scroll story: one smoothed progress value grows the garden. Link rows drift at staggered
-// rates, measured in the height of a one-line row so taller rows never close the gap above
-// them. The cue's seedling grows along, and the cue fades out before the rising card reaches
+// Scroll story: one smoothed progress value grows the garden. The portrait stays away at first
+// and fades in partway through. Link rows drift at staggered rates, measured in the height of a
+// one-line row so taller rows never close the gap above them. The cue's seedling grows along, and the cue fades out before the rising card reaches
 // it. The value eases toward the page's scroll and stops ticking once it arrives.
 function followScroll() {
   const track = document.querySelector<HTMLElement>(".scroll-track")!;
   const header = document.querySelector<HTMLElement>(".card header")!;
+  const portrait = header.querySelector<HTMLElement>(".avatar-frame")!;
   const rows = [...document.querySelectorAll<HTMLElement>(".link-row")];
   const cue = document.querySelector<HTMLElement>(".scroll-cue")!;
   const stem = cue.querySelector<SVGPathElement>(".sprout-stem")!;
@@ -122,6 +123,8 @@ function followScroll() {
     if (Math.abs(target - growth.scroll) < 5e-4) growth.scroll = target;
     const s = growth.scroll;
     header.style.translate = `0 ${-12 * s}%`;
+    portrait.style.opacity = String(clamp((s - 0.3) / 0.3));
+    root.classList.remove("reveal");
     rows.forEach((row, i) => (row.style.translate = `0 ${-(0.2 + i * 0.12) * unit * s}px`));
     cue.style.opacity = String(clamp((0.6 - s) / 0.2));
     cue.style.visibility = s < 0.6 ? "" : "hidden"; // a hidden cue costs its blur nothing
