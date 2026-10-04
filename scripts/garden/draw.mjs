@@ -4,6 +4,8 @@
 //   box), and species tone
 // - src/garden/fields.ts, a coarse map of where each plant paints, for the layout solver
 // - gallery/details/<name>.svg, a close study of each plant for the token gallery
+// It stops with an error if any leaf, flower, fruit, or thorn would appear before the limb it
+// sits on has grown to it.
 // Run: node scripts/garden/draw.mjs
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -128,6 +130,32 @@ function field(markup, vb) {
   return [cols, rows, hex];
 }
 
+// Parts (leaves, flowers, fruit, thorns) that would appear before the limb they sit on has
+// grown to them. A part counts as sitting on a limb when it attaches within that limb's half
+// width of its spine, past its base.
+function earlyParts(markup) {
+  const limbs = [...markup.matchAll(/class="gl" data-g0="([-\d.]+)" data-g1="([-\d.]+)" data-sp="([^"]+)"/g)].map(([, g0, g1, sp]) => {
+    const v = sp.split(" ").map(Number);
+    const pts = [];
+    for (let i = 0; i < v.length; i += 3) pts.push([v[i], v[i + 1], v[i + 2]]);
+    let len = 0;
+    const along = pts.map((p, i) => (i ? (len += Math.hypot(p[0] - pts[i - 1][0], p[1] - pts[i - 1][1])) : 0));
+    return { g0: +g0, g1: +g1, pts, along, len };
+  });
+  const early = [];
+  for (const [, g, o] of markup.matchAll(/class="gp" data-g="([-\d.]+)" data-o="([^"]+)"/g)) {
+    const [x, y] = o.split(" ").map(Number);
+    let best = null;
+    for (const limb of limbs)
+      limb.pts.forEach((p, i) => {
+        const d = Math.hypot(p[0] - x, p[1] - y);
+        if (i > 0 && d <= p[2] + 6 && (!best || d < best.d)) best = { d, arrives: limb.g0 + (limb.g1 - limb.g0) * (limb.along[i] / limb.len) };
+      });
+    if (best && +g < best.arrives - 0.01) early.push(`${o} opens at ${g}, its limb arrives at ${best.arrives.toFixed(3)}`);
+  }
+  return early;
+}
+
 // One drawing as a file: viewBox from the bounding box, path data compacted.
 function render(fn, seed) {
   const parts = [];
@@ -150,6 +178,8 @@ for (const { name } of REGISTRY) {
   const plant = PLANTS[name];
   if (!plant) throw new Error(`plants.json lists ${name}, but draw.mjs has no drawing for it`);
   const { markup, vb, svg } = render(plant.draw, plant.seed);
+  const early = earlyParts(markup);
+  if (early.length) throw new Error(`${name}: ${early.length} parts appear before their limb reaches them, for example ${early[0]}`);
   writeFileSync(new URL(`${name}.svg`, out), svg);
   writeFileSync(new URL(`${name}.svg`, details), render(plant.detail, plant.seed + 1).svg);
   const bx = (-vb[0] / vb[2]).toFixed(4);

@@ -3,14 +3,15 @@
 <a href="https://benji.appcubic.com">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset=".github/assets/garden-night.svg">
-    <img src=".github/assets/garden-day.svg" width="800" alt="A hand-drawn tropical garden around an open clearing. Frangipani, mango, lychee, and orchid tree branches reach in from both sides, a staghorn fern and vines hang from above, and monstera, calathea, alocasia, a fan palm, and bird of paradise rise from below.">
+    <img src=".github/assets/garden-day.svg" width="800" alt="A hand-drawn garden around an open clearing. By day it is tropical, with frangipani, mango, and lychee branches, hanging ferns and vines, and monstera and bird of paradise below. By night it is Mediterranean, with olive, fig, and lemon branches, grapevine and bougainvillea from above, and cypress, lavender, and agave below.">
   </picture>
 </a>
 
 # Benji Peng, Ph.D.
 
 Scientist and entrepreneur.<br>
-A contact card, set in a tropical garden that grows as you scroll.
+A contact card in a garden that grows as you scroll,<br>
+tropical by day and Mediterranean by night.
 
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fbenji.appcubic.com&label=benji.appcubic.com&up_message=online&up_color=3d6b4f&labelColor=262b24&style=flat-square)](https://benji.appcubic.com)
 [![Deploy](https://img.shields.io/github/actions/workflow/status/benjipeng/benji/deploy.yml?branch=main&label=deploy&color=3d6b4f&labelColor=262b24&style=flat-square)](https://github.com/benjipeng/benji/actions/workflows/deploy.yml)
@@ -20,27 +21,36 @@ A contact card, set in a tropical garden that grows as you scroll.
 
 </div>
 
-## The garden
+## Two gardens
 
-Twelve tropical plants, each drawn by code in the manner of a botanical plate:
-ink contours, fine on the lit side and heavier in shadow, over layered
-watercolor glazes. Frangipani, mango, lychee, and orchid tree branches reach in
-from the edges. A staghorn fern and a heart-leaf philodendron hang from above.
-Monstera, bird of paradise, alocasia, calathea, a fan palm, and a Swiss cheese
-vine fill out the bed.
+Every plant is drawn by code in the manner of a botanical plate: ink contours,
+fine on the lit side and heavier in shadow, over layered watercolor glazes.
+
+**By day, a tropical garden.** Frangipani, mango, lychee, and orchid tree
+branches reach in from the edges. A staghorn fern and a heart-leaf philodendron
+hang from above. Monstera, bird of paradise, alocasia, calathea, a fan palm,
+and a Swiss cheese vine fill out the bed.
+
+**By night, a Mediterranean terrace in the dry season.** Olive, fig, lemon, and
+stone pine branches reach in. Grapevine, star jasmine, and bougainvillea fall
+from the pergola. Italian cypress, lavender, rosemary, agave, and acanthus
+rise from the bed, under a moon-silver ink, with fruit and night flowers that
+glow against the dark.
 
 Scrolling makes the garden grow. Branches lengthen, and leaves, flowers, and
 fruit unfold where they attach. On phones and tablets the garden grows on its
-own. In the dark theme, the same garden appears by moonlight.
+own. Switching the theme grows the other garden in.
 
 ## Craft
 
-- **Drawn, not downloaded.** A seeded script draws every plant as SVG, so each
-  leaf and petal can be redrawn exactly. Color lives in CSS, one base tone per
-  species, shifted shape by shape.
-- **Composed for every screen.** Each layout chooses its own plants, and wider
-  screens show more. A small solver spaces them so they overlap less, and a
-  plant that a screen leaves out is never downloaded.
+- **Drawn, not downloaded.** A seeded script draws all twenty-four plants as
+  SVG, so each leaf and petal can be redrawn exactly. Color lives in one token
+  file, a day set and a night set, with one base tone per species shifted
+  shape by shape.
+- **Composed for every screen.** Each garden has a layout for every screen
+  size, and wider screens show more plants. A small solver spaces them so they
+  overlap less. Only the garden on show is downloaded, and only the plants
+  its layout uses.
 - **Light to run.** The GPU draws the garden only while it grows, at most 30
   times a second. At rest, nothing runs.
 - **Considerate.** All content is static HTML. With reduced motion, the garden

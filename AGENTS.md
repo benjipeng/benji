@@ -25,57 +25,71 @@ Benji Peng's professional contact card at `benji.appcubic.com`, published from
   color and a corner arrow flies in. Touch screens leave the arrow out.
 - Link icons are hand-drawn inline SVG on a 24 grid with a 1.5 stroke. They
   draw in on load and play a gesture on hover or focus.
-- Background: a tropical garden drawn as a botanical plate, with ink contours
-  (thin on the lit side, heavy on the shadow side) over watercolor glazes.
-  Woody plants reach in from the sides. Herbs rise from the bottom or hang from
-  the top. The card always sits above the garden, and paper clearings behind
-  the name and footer keep the text legible.
-- Night mode shows the same garden by moonlight (`--garden-ink`, `--garden-dim`).
+- Background: a garden drawn as a botanical plate, with ink contours (thin on
+  the lit side, heavy on the shadow side) over watercolor glazes. Day shows a
+  tropical garden. Night shows a Mediterranean terrace in the dry season,
+  under a moon-silver ink, with fruit and night flowers painted to glow. In
+  each, woody plants reach in from the sides and herbs rise from the bottom or
+  hang from the top. The card always sits above the garden, and paper
+  clearings behind the name and footer keep the text legible.
 
 ## Tokens
 
 - `src/tokens.css` holds every color, in a day set and a night set, in three
   layers: paper and ink, materials (bark, stems, flowers, fruit), and species
-  (`--pl-<plant>`, one base tone per plant). Nothing else defines a color.
+  (`--pl-<plant>`, one base tone per plant). The Mediterranean materials and
+  species are authored for moonlight. The night set also applies under any
+  element with the class `night`. Nothing else defines a color.
 - `src/garden/paint.css` turns tokens into fills and strokes. Shapes carry
   classes (`.wash`, `.ink` and their kinds), shift their species tone with
   `--dl`, `--dh`, `--dc`, and swap it for a material with `--pc`.
 - The token gallery (`gallery/`, development only) shows every token group,
-  the pen, and each plant with a close study, read from the same files. Run
-  `npm run dev` and open `/gallery/`. Production builds leave it out.
+  the pen, and each garden's plants with a close study, read from the same
+  files, the Mediterranean garden on night paper. Run `npm run dev` and open
+  `/gallery/`. Production builds leave it out.
 
 ## Garden
 
-- `src/garden/plants.json` is the plant registry: each plant's key, garden,
-  rank, names, and notes, in paint order from back to front. Adding a plant
-  means a registry entry, a drawing in `scripts/garden/draw.mjs`, a
-  `--pl-<plant>` token, and its places in a layout file.
+- `src/garden/plants.json` is the plant registry: each plant's key, garden
+  (`tropical` or `mediterranean`), rank, names, and notes, in paint order from
+  back to front. Adding a plant means a registry entry, a drawing in
+  `scripts/garden/draw.mjs`, a `--pl-<plant>` token, and its places in its
+  garden's layout file.
 - `node scripts/garden/draw.mjs` draws every registered plant from its own
   seed (so output is stable) into `public/garden/<name>.svg`, with anchors and
   species tones in `src/garden/anchors.css`, occupancy fields in
   `src/garden/fields.ts`, and close studies in `gallery/details/`. Edit the
   scripts and rerun. Never edit the generated files. `lib.mjs` is the shared
-  drawing kit, and `woody.mjs` and `herbs.mjs` hold the plants.
-- `index.html` gets one empty bed per registered plant from the `<!-- garden -->`
-  placeholder at build time (`vite.config.ts`).
+  drawing kit, `woody.mjs` and `herbs.mjs` hold the tropical plants, and
+  `mediterranean.mjs` the night plants. The script stops with an error if any
+  part would appear before the limb it sits on has grown to it.
+- `index.html` gets one empty bed per registered plant, marked with its
+  garden, from the `<!-- garden -->` placeholder at build time
+  (`vite.config.ts`). `paint.css` shows the tropical beds by day and the
+  Mediterranean beds at night.
 - Growth markup: limbs are `g.gl[data-g0][data-g1][data-sp]`. `data-sp` lists
   the spine and half widths, and a growing limb is clipped to a rounded shoot
   of its own taper with an inked tip. Leaves, flowers, and fruit are
   `g.gp[data-g][data-o]` and unfold from where they attach. Gates run from 0 to
-  1 within each plant's growth.
+  1 within each plant's growth, and a part on a limb opens as the growing tip
+  reaches it, measured along the limb.
 - Ink widths are CSS pixels at any plant size: `main.ts` sets `--k`, drawing
   units per pixel, on each plant, and the ink classes multiply by it. Path data
   is written as compact relative commands.
 - Placement: each plant is anchored at its base (`--bx`, `--by`) at `--x`,
   `--y` on a side, the top, or the bottom, with height `--h` in `--u` units.
-  Media queries in `src/garden/tropical.css` choose the plants each layout
-  shows, more on wider screens. Plants a layout leaves out are never fetched.
+  Media queries in each garden's layout file (`src/garden/tropical.css`,
+  `src/garden/mediterranean.css`) choose the plants each layout shows, more on
+  wider screens. Plants a layout leaves out, and the garden not on show, are
+  never fetched.
 - `src/garden/arrange.ts` slides each shown plant along its edge to reduce
   overlap while staying near its composed place, and leaves out plants that
   stay mostly covered, lowest rank first.
 - Motion: the stage is fixed and a 250vh track drives one smoothed scroll
   value. A short intro grows the garden halfway and the scroll grows the rest.
-  Nothing slides in or floats. Every visit starts at the top.
+  Nothing slides in or floats. Every visit starts at the top. Switching the
+  theme spaces the incoming garden, fetches it on its first showing, and grows
+  it in from nothing over about two seconds.
 - Scroll cue: a seedling and "Scroll to grow the garden", pinned at the top
   center on a frosted patch tinted with the paper. The seedling grows with the
   scroll and the cue fades out before the rising card reaches it. It bobs once
@@ -108,6 +122,7 @@ Benji Peng's professional contact card at `benji.appcubic.com`, published from
 - When links or copy change, update the JSON-LD in `index.html`,
   `public/llms.txt`, and `public/sitemap.xml` together.
 - Keep `public/CNAME` as `benji.appcubic.com`.
-- The README plates in `.github/assets/` are the fully grown garden alone
+- The README plates in `.github/assets/` are each fully grown garden alone
   (no card), exported from the page at 1920x1080 as standalone SVG with every
-  color resolved, one per theme. Export them again when the look changes.
+  color resolved: the tropical garden for day, the Mediterranean for night.
+  Export them again when the look changes.
