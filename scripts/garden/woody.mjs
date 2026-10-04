@@ -177,7 +177,7 @@ export function frangipani(out, r, base) {
     scarsOf(s);
     return s;
   });
-  const crowns = [[upper, 6, 0.56], [lower, 4, 0.6]].map(([s, n, g]) => [s.pts[s.n], angleOf(s.pts, s.n), n, g]);
+  const crowns = [[upper, 6, 0.58], [lower, 4, 0.62]].map(([s, n, g]) => [s.pts[s.n], angleOf(s.pts, s.n), n, g]);
   crowns.forEach(([tip, a, n, g]) => plumeriaCrown(out, r, tip, a, n, "leaves", g));
   crowns.forEach(([tip, a, n, g]) => plumeriaCrown(out, r, tip, a, n, "flowers", g + 0.16));
 }
@@ -351,7 +351,7 @@ export function mango(out, r, base) {
   const side = grow(out, 0.26, 0.56, () => limb(out, r, [lerp(base, fork, 0.9), add(fork, [70, -50]), add(fork, [140, -110]), add(fork, [200, -140])], { w0: 16, w1: 9, cap: "taper", inkFrom: 0.15 }));
   const main = grow(out, 0, 0.6, () => limb(out, r, [add(base, [-30, 6]), add(base, [200, -40]), fork, add(base, [520, -30]), add(base, [660, -70])], { w0: 28, w1: 11, cap: "taper", lenticels: true }));
   // Drooping leaf clusters fall from each tip in a loose spiral.
-  [[side, 0.54], [main, 0.58]].forEach(([s, g]) => {
+  [[side, 0.56], [main, 0.6]].forEach(([s, g]) => {
     const tip = s.pts[s.n];
     const a = angleOf(s.pts, s.n);
     [-70, -40, -12, 14, 40, 70, 100, 132].forEach((d, i) => {

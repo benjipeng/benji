@@ -77,6 +77,18 @@ function bladeBunch(out, blades, v, cls = "wash") {
   out.push(`<path class="${cls}"${vars(v)} d="${fill}"/><path class="ink hair" d="${ink}"/>`);
 }
 
+// The gate at which a limb growing from g0 to g1 reaches the share t of its length, so whatever
+// sits there appears just as the growing tip passes it.
+const along = (g0, g1, t) => g0 + (g1 - g0) * t + 0.015;
+// The share of a limb's length up to its point i, measured along the curve as its growth is.
+function share(res, i) {
+  if (!res.cum) {
+    let len = 0;
+    res.cum = res.pts.map((p, k) => (k ? (len += Math.hypot(p[0] - res.pts[k - 1][0], p[1] - res.pts[k - 1][1])) : 0));
+  }
+  return res.cum[i] / res.cum[res.cum.length - 1];
+}
+
 // A round fruit or berry outline.
 const roundPts = (c, rx, ry, lean = 0, n = 16) => sample((t) => add(c, rot([rx * Math.cos(t * TAU), ry * Math.sin(t * TAU)], lean)), n).slice(0, -1);
 const glint = (c, rx, ry) => `<path class="wash shine" d="${closed(roundPts(c, rx, ry, 0, 8))}"/>`;
@@ -133,7 +145,7 @@ export function olive(out, r, base) {
     const i = Math.round(t * main.n);
     const p = main.pts[i];
     const a = angleOf(main.pts, i) + side * rad(38 + r() * 26);
-    oliveTwig(out, r, p, a, 140 + r() * 70, t * 0.6 - 0.02, side > 0 ? 2 : 1);
+    oliveTwig(out, r, p, a, 140 + r() * 70, along(0, 0.6, share(main, i)), side > 0 ? 2 : 1);
     side = -side;
   });
   const tip = main.pts[main.n];
@@ -170,7 +182,7 @@ export function fig(out, r, base) {
   const fork = add(base, [300, -50]);
   const upper = grow(out, 0.24, 0.56, () => limb(out, r, [lerp(base, fork, 0.88), add(fork, [60, -70]), add(fork, [110, -170]), add(fork, [170, -230])], { w0: 20, w1: 10, cap: "taper", pc: "--bark-olive", inkFrom: 0.15 }));
   const main = grow(out, 0, 0.6, () => limb(out, r, [add(base, [-30, 6]), add(base, [150, -36]), fork, add(base, [470, -30]), add(base, [610, -70])], { w0: 32, w1: 12, cap: "taper", pc: "--bark-olive" }));
-  [[upper, 0.5], [main, 0.54]].forEach(([s, g]) => {
+  [[upper, 0.56], [main, 0.6]].forEach(([s, g]) => {
     const tip = s.pts[s.n];
     const a = angleOf(s.pts, s.n);
     [-80, -38, 4, 44, 88].forEach((d, k) => {
@@ -233,20 +245,18 @@ export function lemon(out, r, base) {
   const fork = add(base, [330, -30]);
   const lower = grow(out, 0.24, 0.56, () => limb(out, r, [lerp(base, fork, 0.9), add(fork, [80, 50]), add(fork, [170, 70]), add(fork, [250, 60])], { w0: 13, w1: 7, cap: "taper", inkFrom: 0.15 }));
   const main = grow(out, 0, 0.6, () => limb(out, r, [add(base, [-30, 6]), add(base, [170, -40]), fork, add(base, [480, -70]), add(base, [640, -96])], { w0: 22, w1: 8, cap: "taper", lenticels: true }));
-  // Thorns at the nodes.
-  let thorns = "";
+  // Thorns at the nodes, each appearing as the growing tip passes it.
   for (let i = 8; i < main.n - 4; i += 7) {
     const p = main.pts[i];
     const a = angleOf(main.pts, i) - rad(60);
-    thorns += `M${P1(add(p, polar(5, a)))}L${P1(add(p, polar(14, a + 0.3)))}L${P1(add(p, polar(5, a + 0.6)))}`;
+    part(out, along(0, 0.6, share(main, i)), p, () => out.push(`<path class="ink thin" d="M${P1(add(p, polar(5, a)))}L${P1(add(p, polar(14, a + 0.3)))}L${P1(add(p, polar(5, a + 0.6)))}"/>`));
   }
-  part(out, 0.3, main.pts[8], () => out.push(`<path class="ink thin" d="${thorns}"/>`));
-  [[main, 0.6], [lower, 0.56]].forEach(([s, gEnd]) => {
+  [[main, 0, 0.6], [lower, 0.24, 0.56]].forEach(([s, g0, g1]) => {
     let side = 1;
     for (let i = 6; i <= s.n; i += 6) {
       const p = s.pts[i];
       const a = angleOf(s.pts, i) - side * rad(42 + r() * 20);
-      part(out, (i / s.n) * gEnd + 0.02, p, () => lemonLeaf(out, r, p, a, 92 + r() * 26));
+      part(out, along(g0, g1, share(s, i)), p, () => lemonLeaf(out, r, p, a, 92 + r() * 26));
       side = -side;
     }
   });
@@ -310,14 +320,15 @@ export function pine(out, r, base) {
     const p = main.pts[i];
     const a = angleOf(main.pts, i) + (k % 2 ? 1 : -1) * rad(50 + r() * 15);
     const end = add(p, polar(150 + r() * 50, a));
-    return grow(out, t * 0.58 - 0.04, t * 0.58 + 0.16, () => limb(out, r, [p, lerp(p, end, 0.5), end], { w0: 10, w1: 5, cap: "taper", pc: "--bark-pine", inkFrom: 0.1 }));
+    const g0 = along(0, 0.58, share(main, i));
+    return { g0, g1: g0 + 0.2, s: grow(out, g0, g0 + 0.2, () => limb(out, r, [p, lerp(p, end, 0.5), end], { w0: 10, w1: 5, cap: "taper", pc: "--bark-pine", inkFrom: 0.1 })) };
   });
-  [...shoots, main].forEach((s, k) => {
+  [...shoots, { g0: 0, g1: 0.58, s: main }].forEach(({ g0, g1, s }) => {
     const tip = s.pts[s.n];
     const a = angleOf(s.pts, s.n);
-    part(out, 0.5 + k * 0.05, tip, () => needleTuft(out, r, tip, a, 88 + r() * 16));
+    part(out, g1 + 0.01, tip, () => needleTuft(out, r, tip, a, 88 + r() * 16));
     const mid = s.pts[Math.round(s.n * 0.6)];
-    part(out, 0.56 + k * 0.05, mid, () => needleTuft(out, r, mid, a - rad(70), 64 + r() * 12));
+    part(out, along(g0, g1, share(s, Math.round(s.n * 0.6))) + 0.04, mid, () => needleTuft(out, r, mid, a - rad(70), 64 + r() * 12));
   });
   const at = main.pts[Math.round(main.n * 0.5)];
   [[-6, 54, -0.2], [52, 46, 0.25]].forEach(([dx, dy, lean], k) => part(out, 0.8 + k * 0.05, at, () => pineCone(out, r, add(at, [dx, dy]), 92, lean)));
@@ -366,13 +377,13 @@ function tendril(c, a, size) {
 export function grapevine(out, r, top) {
   const wander = wobble(r, 24, [1.1, 2.1]);
   const at = (t) => add(top, [wander(t) + 70 * Math.sin(t * 2.2), t * 560]);
-  grow(out, 0, 0.8, () => stalk(out, at, 11, 4, tone(r, { pc: "--bark", spread: 0.03 }), 50));
+  const cane = grow(out, 0, 0.8, () => stalk(out, at, 11, 4, tone(r, { pc: "--bark", spread: 0.03 }), 50));
   let side = 1;
   for (let t = 0.1; t < 0.95; t += 0.13 + r() * 0.04) {
     const p = at(t);
     const pa = rad(90) + side * rad(50 + r() * 30);
     const leafAt = add(p, polar(44 + r() * 20, pa));
-    part(out, t * 0.8 + 0.03, p, () => {
+    part(out, along(0, 0.8, share(cane, Math.round(t * 50))), p, () => {
       out.push(`<path class="ink mid" d="M${P1(p)}Q${P1(add(p, polar(26, pa - side * 0.3)))} ${P1(leafAt)}"/>`);
       grapeLeaf(out, r, leafAt, pa - side * rad(20), (150 - t * 50) * (0.85 + r() * 0.3));
       out.push(`<path class="ink thin" d="${tendril(p, rad(90) - side * rad(70), 48 + r() * 20)}"/>`);
@@ -404,11 +415,11 @@ export function jasmineFlower(out, r, c, size, spin) {
 function jasmineStem(out, r, top, length, sway, g0) {
   const wander = wobble(r, 14, [1.3, 2.9]);
   const at = (t) => add(top, [wander(t) + sway * Math.sin(t * 2.6), t * length]);
-  grow(out, g0, g0 + 0.7, () => stalk(out, at, 4, 2, tone(r, { pc: "--stem-dark", spread: 0.03 }), 44));
+  const stem = grow(out, g0, g0 + 0.7, () => stalk(out, at, 4, 2, tone(r, { pc: "--stem-dark", spread: 0.03 }), 44));
   for (let t = 0.06; t < 0.97; t += 0.07 + r() * 0.03) {
     const p = at(t);
     const a = angleOf(sample(at, 60), Math.round(t * 60));
-    part(out, g0 + t * 0.7 + 0.02, p, () => {
+    part(out, along(g0, g0 + 0.7, share(stem, Math.round(t * 44))), p, () => {
       for (const sg of [-1, 1]) blade(out, r, p, a + sg * rad(58 + r() * 20), (40 + r() * 12) * (1 - t * 0.3), { W: 0.4, v: tone(r, { spread: 0.07, hue: 10 }), shine: true, deep: 0.5, rib: "ink thin" });
     });
   }
@@ -463,18 +474,16 @@ export function bougainvillea(out, r, top) {
       return add(add(mul(from, u * u * u), mul(add(from, c1), 3 * u * u * t)), add(mul(add(from, c2), 3 * u * t * t), mul(add(from, end), t * t * t)));
     };
     const cane = grow(out, g, g + 0.6, () => stalk(out, curve, 9, 3, tone(r, { pc: "--bark", spread: 0.03 }), 40));
-    let thorns = "";
     for (let i = 4; i < 38; i += 5) {
       const p = cane.pts[i];
       const a = angleOf(cane.pts, i) + rad(70);
-      thorns += `M${P1(add(p, polar(3, a)))}Q${P1(add(p, polar(9, a + 0.3)))} ${P1(add(p, polar(12, a + 0.9)))}`;
+      part(out, along(g, g + 0.6, share(cane, i)), p, () => out.push(`<path class="ink thin" d="M${P1(add(p, polar(3, a)))}Q${P1(add(p, polar(9, a + 0.3)))} ${P1(add(p, polar(12, a + 0.9)))}"/>`));
     }
-    part(out, g + 0.2, cane.pts[4], () => out.push(`<path class="ink thin" d="${thorns}"/>`));
     let side = 1;
     for (let i = 3; i < 40; i += 4) {
       const p = cane.pts[i];
       const a = angleOf(cane.pts, i) + side * rad(55 + r() * 20);
-      part(out, g + (i / 40) * 0.6 + 0.02, p, () => blade(out, r, p, a, 46 + r() * 14, { W: 0.55, v: tone(r, { spread: 0.07 }), deep: 0.5, rib: "ink thin" }));
+      part(out, along(g, g + 0.6, share(cane, i)), p, () => blade(out, r, p, a, 46 + r() * 14, { W: 0.55, v: tone(r, { spread: 0.07 }), deep: 0.5, rib: "ink thin" }));
       side = -side;
     }
     for (let k = 0; k < 6; k++) {

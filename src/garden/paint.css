@@ -23,6 +23,13 @@
   pointer-events: none;
 }
 
+/* Each theme shows its own garden: the tropical garden by day, the Mediterranean garden at
+   night. Beds of the other garden stay hidden and are never fetched until their theme. */
+:root:not([data-theme="dark"]) .garden .plant[data-garden="mediterranean"],
+:root[data-theme="dark"] .garden .plant[data-garden="tropical"] {
+  display: none;
+}
+
 .garden .plant[data-crowded] {
   display: none;
 }

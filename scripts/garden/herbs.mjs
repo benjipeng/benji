@@ -64,7 +64,7 @@ export function fanPalm(out, r, base) {
       out.push(`<path class="ink hair" d="${ticks}"/>`);
       return s;
     });
-    part(out, g0 + 0.38, tip, () => palmLeaf(out, r, tip, dir, L.R, L.tilt, L.spin));
+    part(out, g0 + 0.4, tip, () => palmLeaf(out, r, tip, dir, L.R, L.tilt, L.spin));
   });
 }
 
@@ -144,7 +144,7 @@ export function monstera(out, r, base) {
     const top = add(base, polar(o.len, dir));
     const g0 = 0.04 + k * 0.1;
     grow(out, g0, g0 + 0.36, () => stalk(out, quad(base, add(base, polar(o.len * 0.6, dir - rad(8))), top), 11, 7, tone(r, { pc: "--stem-green", spread: 0.04 })));
-    part(out, g0 + 0.34, top, () => monsteraLeaf(out, r, top, rad(o.rot), o.L, { tilt: o.tilt }));
+    part(out, g0 + 0.36, top, () => monsteraLeaf(out, r, top, rad(o.rot), o.L, { tilt: o.tilt }));
   });
 }
 
@@ -263,7 +263,7 @@ export function strelitzia(out, r, base) {
     const top = add(base, polar(o.len, dir));
     const g0 = 0.04 + k * 0.08;
     grow(out, g0, g0 + 0.34, () => stalk(out, quad(base, add(base, polar(o.len * 0.5, dir)), top), 10, 6, tone(r, { pc: "--stem-green", spread: 0.04 })));
-    part(out, g0 + 0.32, top, () => paddle(out, r, top, dir + rad((r() - 0.5) * 10), o.L));
+    part(out, g0 + 0.34, top, () => paddle(out, r, top, dir + rad((r() - 0.5) * 10), o.L));
   });
   craneFlower(out, r, add(base, [10, -2]), add(base, [64, -212]), rad(-10));
 }
@@ -366,7 +366,7 @@ export function alocasia(out, r, base) {
     const top = add(base, polar(o.len, dir));
     const g0 = 0.04 + k * 0.1;
     grow(out, g0, g0 + 0.34, () => stalk(out, quad(base, add(base, polar(o.len * 0.5, dir + rad(5))), top), 9, 6, tone(r, { pc: "--stem-dark", spread: 0.04 })));
-    part(out, g0 + 0.32, top, () => alocasiaLeaf(out, r, top, rad(o.rot), o.L, o.tilt));
+    part(out, g0 + 0.34, top, () => alocasiaLeaf(out, r, top, rad(o.rot), o.L, o.tilt));
   });
 }
 
@@ -411,7 +411,7 @@ export function calathea(out, r, base) {
     const top = add(base, polar(o.len, dir));
     const g0 = 0.04 + k * 0.08;
     grow(out, g0, g0 + 0.34, () => stalk(out, quad(base, add(base, polar(o.len * 0.5, dir)), top), 6, 4, tone(r, { pc: "--stem-green", spread: 0.04 })));
-    part(out, g0 + 0.32, top, () => calatheaLeaf(out, r, top, rad(o.rot), o.L, o.tilt));
+    part(out, g0 + 0.34, top, () => calatheaLeaf(out, r, top, rad(o.rot), o.L, o.tilt));
   });
 }
 

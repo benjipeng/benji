@@ -2,6 +2,7 @@ import "./tokens.css";
 import "./style.css";
 import "./garden/paint.css";
 import "./garden/tropical.css";
+import "./garden/mediterranean.css";
 import "./garden/anchors.css";
 import { animate, createDrawable, createTimeline, stagger } from "animejs";
 import { arrange } from "./garden/arrange";
@@ -18,6 +19,7 @@ const UNFOLD = 0.08; // the span of progress a leaf, flower, or fruit takes to o
 const FPS = 30; // growth is slow, so the garden redraws at most this often
 const LAG = 75; // ms for the smoothed scroll to close about two thirds of the gap to the page
 const AUTOPLAY = 6000; // ms touch screens take to play the scroll part of the growth
+const GROW_IN = 1800; // ms a garden takes to grow in when the theme switches to it
 const ROOM = 8; // how far a growing limb's clip reaches past its edges, in drawing units
 const SVG_NS = "http://www.w3.org/2000/svg";
 
@@ -39,7 +41,8 @@ type Limb = {
   clipped: boolean;
 };
 type Part = { el: SVGGElement; g: number; o: string; back: string; turn: number; last: number };
-type Plant = { bed: HTMLElement; vb: number; k: number; lag: number; limbs: Limb[]; parts: Part[] };
+// boost scales a plant's growth: 1 normally, and rising from 0 while its garden grows in.
+type Plant = { bed: HTMLElement; garden: string; vb: number; k: number; lag: number; boost: number; limbs: Limb[]; parts: Part[] };
 
 const root = document.documentElement;
 const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -47,8 +50,11 @@ const touch = matchMedia("(pointer: coarse)").matches;
 const growth = { intro: still ? 1 : 0, scroll: 0 };
 const plants: Plant[] = [];
 const beds = [...document.querySelectorAll<HTMLElement>(".garden .plant")];
+const gardenOf = () => (root.dataset.theme === "dark" ? "mediterranean" : "tropical");
+let garden = gardenOf();
 let drawn = -1;
 let pending = false;
+let forceNext = false;
 let lastDraw = 0;
 
 // Every visit starts at the top, where the garden starts growing.
@@ -57,7 +63,7 @@ setupTheme();
 if (import.meta.env.PROD) analytics();
 arrange(beds);
 plantGarden().then(() => {
-  if (!still) animate(growth, { intro: INTRO, duration: 2600, ease: "out(3)", onUpdate: requestGarden, onComplete: touch ? autoplay : nudge });
+  if (!still) animate(growth, { intro: INTRO, duration: 2600, ease: "out(3)", onUpdate: () => requestGarden(), onComplete: touch ? autoplay : nudge });
 });
 addEventListener(
   "resize",
@@ -163,8 +169,9 @@ function nudge() {
   }, 2500);
 }
 
-// Fetches the plants this layout shows and has not planted yet.
-async function plantGarden() {
+// Fetches the plants this layout shows and has not planted yet. Plants fetched for a garden that
+// is growing in start from nothing.
+async function plantGarden(growing = false) {
   await Promise.all(
     beds.map(async (bed, i) => {
       if (bed.dataset.planted || getComputedStyle(bed).display === "none") return;
@@ -177,6 +184,7 @@ async function plantGarden() {
       const plant = collect(bed, (i % 5) * 0.03);
       scaleInk(plant, height);
       plants.push(plant);
+      if (growing) growIn(plant);
       renderGarden(true);
     }),
   );
@@ -216,7 +224,7 @@ function collect(bed: HTMLElement, lag: number): Plant {
     const [x, y] = el.dataset.o!.split(" ");
     return { el, g: +el.dataset.g!, o: `${x} ${y}`, back: `${-x} ${-y}`, turn: i % 2 ? 22 : -22, last: -1 };
   });
-  return { bed, vb: svg.viewBox.baseVal.height, k: 0, lag, limbs, parts };
+  return { bed, garden: bed.dataset.garden!, vb: svg.viewBox.baseVal.height, k: 0, lag, boost: 1, limbs, parts };
 }
 
 // Ink keeps one pen width at every plant size. --k is drawing units per CSS pixel.
@@ -230,16 +238,37 @@ function scaleInk(plant: Plant, height = plant.bed.offsetHeight) {
 
 // Every change repaints the plants it touches, so the garden redraws at most FPS times a
 // second, and only when growth has moved a visible step.
-function requestGarden() {
+function requestGarden(force = false) {
+  forceNext ||= force;
   if (pending) return;
   pending = true;
   const tick = (now: number) => {
     if (now - lastDraw < 1000 / FPS - 4) return void requestAnimationFrame(tick);
     pending = false;
     lastDraw = now;
-    renderGarden();
+    renderGarden(forceNext);
+    forceNext = false;
   };
   requestAnimationFrame(tick);
+}
+
+// The theme picks the garden. On a switch the incoming garden is spaced out, fetched if this is
+// its first showing, and grown in from nothing over GROW_IN.
+function gardenChanged() {
+  garden = gardenOf();
+  arrange(beds);
+  for (const plant of plants) {
+    if (plant.garden !== garden) continue;
+    scaleInk(plant);
+    growIn(plant);
+  }
+  plantGarden(true);
+}
+
+function growIn(plant: Plant) {
+  if (still) return;
+  plant.boost = 0;
+  animate(plant, { boost: 1, duration: GROW_IN, ease: "out(2)", onUpdate: () => requestGarden(true) });
 }
 
 function renderGarden(force = false) {
@@ -247,7 +276,8 @@ function renderGarden(force = false) {
   if (all === drawn && !force) return;
   drawn = all;
   for (const plant of plants) {
-    const p = clamp((all - plant.lag) / (1 - plant.lag));
+    if (plant.garden !== garden) continue;
+    const p = clamp((all - plant.lag) / (1 - plant.lag)) * plant.boost;
     for (const limb of plant.limbs) {
       const t = clamp((p - limb.g0) / (limb.g1 - limb.g0));
       if (t === limb.last) continue;
@@ -418,6 +448,7 @@ function setupTheme() {
         localStorage.setItem("theme", next);
       } catch {}
       sync();
+      gardenChanged();
     }),
   );
   sync();
