@@ -6,7 +6,8 @@
       leaf shifts lightness, hue, and chroma around it (--dl, --dh, --dc on each shape).
    Day shows the tropical garden and night the Mediterranean garden, each with its species
    and materials authored for its own light. src/garden/paint.css turns these into fills and
-   strokes. The night set also applies to any element with the class "night". */
+   strokes. The night set also applies to any element with the class "night". At night the
+   garden's ink never outshines the card's border: it sits just under it. */
 
 :root {
   /* Paper and ink */
@@ -102,14 +103,14 @@
   /* Paper and ink */
   --bg: #131712;
   --surface: #1c211b;
-  --border: #2b322a;
+  --border: #343c33;
   --text: #e7eae1;
   --muted: #a6ad9d;
   --faint: #6f7668;
   --accent: #c3a45c;
   --accent-ink: #c3a45c;
   --grain-alpha: 0.07;
-  --garden-ink: oklch(0.88 0.015 220);
+  --garden-ink: oklch(0.32 0.02 145);
 
   color-scheme: dark;
 }
