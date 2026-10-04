@@ -446,7 +446,7 @@ function gesture(link: HTMLAnchorElement): () => void {
   };
 }
 
-// The portrait SVG holds a moonlit rendition, addressed by its #night fragment. Both are the
+// The portrait SVG holds a night rendition, addressed by its #night fragment. Both are the
 // same file, so switching never fetches it again.
 function portrait() {
   const img = document.querySelector<HTMLImageElement>(".avatar")!;
@@ -456,6 +456,7 @@ function portrait() {
 
 function setupTheme() {
   const toggles = document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]");
+  const bars = document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]');
   const getTheme = () => (root.dataset.theme === "dark" ? "dark" : "light");
   const sync = () => {
     const label = getTheme() === "dark" ? "Switch to light theme" : "Switch to dark theme";
@@ -463,6 +464,9 @@ function setupTheme() {
       t.setAttribute("aria-label", label);
       t.setAttribute("title", label);
     });
+    // The browser bar follows the theme on show, not only the system's, in the paper token.
+    const paper = getComputedStyle(root).getPropertyValue("--bg").trim();
+    bars.forEach((bar) => (bar.content = paper));
   };
   toggles.forEach((t) =>
     t.addEventListener("click", () => {

@@ -129,8 +129,14 @@ Benji Peng's professional contact card at `benji.appcubic.com`, published from
   2560x1440.
 - Honor `prefers-reduced-motion`: the garden shows fully grown and still, with
   no cue and no autoplay.
-- When links or copy change, update the JSON-LD in `index.html`,
-  `public/llms.txt`, and `public/sitemap.xml` together.
+- When links or copy change, update the descriptions and JSON-LD in
+  `index.html`, `public/llms.txt`, and `public/sitemap.xml` together.
+- The share image `public/social.jpg` (1200x630, used by `og:image` and
+  `twitter:image`) is the page in the day theme with the garden fully grown and
+  only the portrait, name, and title over it. Take it again when the look
+  changes.
+- The `theme-color` metas carry each theme's `--bg` for the first paint.
+  `main.ts` then sets them from the token for the theme on show.
 - Keep `public/CNAME` as `benji.appcubic.com`.
 - The README plates in `.github/assets/` are each fully grown garden alone
   (no card), exported from the page at 1920x1080 as standalone SVG with every
