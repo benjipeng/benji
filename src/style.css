@@ -346,7 +346,10 @@ h1 {
   }
 }
 
-.theme-toggle {
+/* Page utilities sit quietly in the top corners: the source code on the left, the theme toggle
+   on the right. */
+.theme-toggle,
+.source-link {
   position: fixed;
   top: 1rem;
   right: 1rem;
@@ -364,12 +367,19 @@ h1 {
   cursor: pointer;
 }
 
-.theme-toggle:hover {
+.source-link {
+  right: auto;
+  left: 1rem;
+}
+
+.theme-toggle:hover,
+.source-link:hover {
   color: var(--text);
 }
 
 @media (max-aspect-ratio: 4/5), (max-width: 720px) {
-  .theme-toggle {
+  .theme-toggle,
+  .source-link {
     background: color-mix(in srgb, var(--bg) 72%, transparent);
     backdrop-filter: blur(6px);
   }
@@ -387,6 +397,7 @@ h1 {
 
 .link:focus-visible,
 .theme-toggle:focus-visible,
+.source-link:focus-visible,
 footer a:focus-visible {
   outline: 2px solid var(--accent-ink);
   outline-offset: 3px;

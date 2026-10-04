@@ -33,8 +33,8 @@ Benji Peng's professional contact card at `benji.appcubic.com`, published from
   `/benji.svg#night`. The page picks the rendition before first paint and on
   each theme switch, from one fetch. `benji.webp` stays for the JSON-LD
   image.
-- The footer's attribution line ends with a quiet "Open source." link to this
-  repository.
+- Page utilities sit in the top corners: a `</>` source code link to this
+  repository on the left, the sun and moon toggle on the right.
 - Background: a garden drawn as a botanical plate, with ink contours (thin on
   the lit side, heavy on the shadow side) over watercolor glazes. Day shows a
   tropical garden. Night shows a Mediterranean terrace in the dry season,
