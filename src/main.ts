@@ -446,6 +446,14 @@ function gesture(link: HTMLAnchorElement): () => void {
   };
 }
 
+// The portrait SVG holds a moonlit rendition, addressed by its #night fragment. Both are the
+// same file, so switching never fetches it again.
+function portrait() {
+  const img = document.querySelector<HTMLImageElement>(".avatar")!;
+  const src = root.dataset.theme === "dark" ? "/benji.svg#night" : "/benji.svg";
+  if (img.getAttribute("src") !== src) img.src = src;
+}
+
 function setupTheme() {
   const toggles = document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]");
   const getTheme = () => (root.dataset.theme === "dark" ? "dark" : "light");
@@ -464,6 +472,7 @@ function setupTheme() {
         localStorage.setItem("theme", next);
       } catch {}
       sync();
+      portrait();
       gardenChanged();
     }),
   );

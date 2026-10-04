@@ -21,3 +21,4 @@
 - [AppCubic](https://www.appcubic.com/)
 - [App Automaton](https://appautomaton.com/): an open workshop for coding agents, by AppCubic
 - [Mocubix](https://mocubix.renocrypt.com/): Benji Peng's seven ways a page can move, and a lexicon of 41 named interface effects
+- [Source on GitHub](https://github.com/benjipeng/benji): this site's code

@@ -25,6 +25,13 @@ Benji Peng's professional contact card at `benji.appcubic.com`, published from
   color and a corner arrow flies in. Touch screens leave the arrow out.
 - Link icons are hand-drawn inline SVG on a 24 grid with a 1.5 stroke. They
   draw in on load and play a gesture on hover or focus.
+- The portrait is a watercolor SVG generated outside this repo
+  (`appcubic/design-studies/benji-watercolor`). It holds a moonlit night
+  rendition, shown as `/benji.svg#night`. The page picks the rendition before
+  first paint and again on each theme switch, from one fetch. `benji.webp`
+  stays for the JSON-LD image.
+- The footer's attribution line ends with a quiet "Open source." link to this
+  repository.
 - Background: a garden drawn as a botanical plate, with ink contours (thin on
   the lit side, heavy on the shadow side) over watercolor glazes. Day shows a
   tropical garden. Night shows a Mediterranean terrace in the dry season,
