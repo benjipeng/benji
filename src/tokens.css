@@ -1,0 +1,85 @@
+/* Design tokens: every color the page and the garden use, in a day set and a night set.
+   Three layers, from the page inward:
+   1. Paper and ink: the page, the card, and the pen the garden is drawn with.
+   2. Materials: bark, stems, flowers, and fruit, shared by any plant that uses them.
+   3. Species: one base tone per plant, named after its key in src/garden/plants.json. Every
+      leaf shifts lightness, hue, and chroma around it (--dl, --dh, --dc on each shape).
+   Day shows the tropical garden. Night shows the same garden by moonlight: paler ink, and
+   washes deepened by --garden-dim. src/garden/paint.css turns these into fills and strokes. */
+
+:root {
+  /* Paper and ink */
+  --bg: #f2f2ed;
+  --surface: #fafaf7;
+  --border: #dcdfd4;
+  --text: #262b24;
+  --muted: #5d6457;
+  --faint: #8b9184;
+  --accent: #a8862f;
+  --accent-ink: #77601d;
+  --grain-alpha: 0.04;
+  --garden-ink: oklch(0.27 0.03 140);
+  --garden-dim: 0;
+
+  /* Materials: bark and stems */
+  --bark: oklch(0.5 0.03 65);
+  --bark-pale: oklch(0.66 0.03 105);
+  --cork: oklch(0.62 0.06 70);
+  --stem-green: oklch(0.6 0.1 128);
+  --stem-dark: oklch(0.4 0.05 160);
+  --shield: oklch(0.64 0.09 120);
+  --lime: oklch(0.86 0.15 115);
+
+  /* Materials: flowers */
+  --petal: oklch(0.97 0.02 95);
+  --petal-lilac: oklch(0.8 0.08 318);
+  --petal-vein: oklch(0.55 0.08 318);
+  --petal-vein-deep: oklch(0.42 0.12 318);
+  --flower-heart: oklch(0.84 0.15 88);
+  --filament: oklch(0.93 0.03 330);
+  --anther: oklch(0.74 0.11 78);
+  --pistil: oklch(0.86 0.06 135);
+  --spathe: oklch(0.58 0.07 200);
+  --sepal: oklch(0.74 0.16 58);
+  --tongue: oklch(0.5 0.14 262);
+
+  /* Materials: fruit */
+  --fruit-mango: oklch(0.82 0.14 88);
+  --fruit-unripe: oklch(0.72 0.13 128);
+  --blush: oklch(0.72 0.14 50);
+  --fruit-lychee: oklch(0.6 0.15 22);
+  --fruit-blushing: oklch(0.76 0.11 60);
+
+  /* Species: the tropical garden */
+  --pl-frangipani: oklch(0.55 0.11 146);
+  --pl-bauhinia: oklch(0.62 0.1 134);
+  --pl-mango: oklch(0.44 0.07 156);
+  --pl-lychee: oklch(0.5 0.09 150);
+  --pl-palm: oklch(0.62 0.12 132);
+  --pl-monstera: oklch(0.5 0.11 152);
+  --pl-adansonii: oklch(0.6 0.13 142);
+  --pl-strelitzia: oklch(0.56 0.08 165);
+  --pl-alocasia: oklch(0.34 0.05 172);
+  --pl-calathea: oklch(0.55 0.07 150);
+  --pl-staghorn: oklch(0.7 0.06 140);
+  --pl-philodendron: oklch(0.6 0.14 138);
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  /* Paper and ink */
+  --bg: #131712;
+  --surface: #1c211b;
+  --border: #2b322a;
+  --text: #e7eae1;
+  --muted: #a6ad9d;
+  --faint: #6f7668;
+  --accent: #c3a45c;
+  --accent-ink: #c3a45c;
+  --grain-alpha: 0.07;
+  --garden-ink: oklch(0.86 0.03 120);
+  --garden-dim: 0.17;
+
+  color-scheme: dark;
+}

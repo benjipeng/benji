@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://benji.appcubic.com/sitemap.xml

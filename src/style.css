@@ -1,0 +1,514 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(70rem 40rem at 50% 6%, color-mix(in srgb, var(--accent) 5%, var(--bg)), var(--bg) 70%)
+    var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: color 0.25s ease;
+}
+
+.scroll-track {
+  height: 250vh;
+}
+
+.stage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.5rem, 4vh, 3rem) 1.25rem 0;
+}
+
+.stage main {
+  flex-grow: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The scroll cue: a seedling beside a plain instruction, at the top of the screen above the
+   card. main.ts grows the seedling with the garden and fades the cue out as the card drifts
+   up, the same on every screen. */
+.scroll-cue {
+  position: fixed;
+  top: 0.85rem;
+  left: 50%;
+  translate: -50% 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+  white-space: nowrap;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+/* A soft frosted patch tinted with the paper, so plants hanging from the top blur away behind
+   the words in either theme. Its edge fades out, so it never reads as a box. */
+.scroll-cue::before {
+  content: "";
+  position: absolute;
+  inset: -0.9rem -3rem;
+  z-index: -1;
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  -webkit-mask-image: radial-gradient(closest-side, #000 74%, transparent);
+  mask-image: radial-gradient(closest-side, #000 74%, transparent);
+}
+
+.sprout {
+  width: 1.55rem;
+  height: 1.55rem;
+  overflow: visible;
+  fill: none;
+  stroke: color-mix(in oklch, var(--pl-monstera) 75%, var(--text));
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sprout-leaf {
+  fill: color-mix(in oklch, var(--pl-adansonii) 35%, transparent);
+}
+
+.sprout-left {
+  transform-origin: 12px 15px;
+}
+
+.sprout-right {
+  transform-origin: 12px 12.2px;
+}
+
+
+/* Card */
+
+.card {
+  width: min(100%, 23.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* The header and links drift with the scroll on their own layers, so drifting never repaints. */
+.card header {
+  position: relative;
+  isolation: isolate;
+  will-change: translate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* A clearing in the garden: paper shows through behind the name, so leaves passing
+   underneath soften instead of crossing the letters. */
+.card header::before {
+  content: "";
+  position: absolute;
+  inset: -14% -24% -26%;
+  z-index: -1;
+  background: radial-gradient(closest-side, var(--bg) 42%, color-mix(in srgb, var(--bg) 72%, transparent) 62%, color-mix(in srgb, var(--bg) 30%, transparent) 82%, transparent);
+  pointer-events: none;
+}
+
+.avatar-frame {
+  position: relative;
+  width: 8.75rem;
+  aspect-ratio: 1;
+}
+
+.avatar-frame::before {
+  content: "";
+  position: absolute;
+  inset: 2%;
+  translate: 7px 9px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--pl-monstera) 30%, var(--bg));
+}
+
+.avatar-clip {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--pl-monstera) 28%, var(--bg));
+}
+
+/* The portrait is a filtered watercolor SVG. On its own layer it is painted once and then only
+   moves with the card, so scrolling never repaints its filters. */
+.avatar {
+  will-change: transform;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+
+h1 {
+  margin: 1rem 0 0.4rem;
+  font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
+  font-size: clamp(2.1rem, 5vw, 3.05rem);
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent-ink);
+}
+
+.links {
+  margin-top: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.link {
+  will-change: translate;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.78rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.link:hover {
+  border-color: color-mix(in srgb, var(--brand) 55%, transparent);
+  background: color-mix(in srgb, var(--brand) 8%, var(--surface));
+  box-shadow: 0 6px 18px -8px color-mix(in srgb, var(--brand) 45%, transparent);
+}
+
+.link-label {
+  text-align: left;
+}
+
+.link-icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.link:hover .link-icon {
+  color: var(--brand);
+}
+
+/* Hand-drawn icons: one 1.5 pen on a 24 grid. main.ts draws them in and adds a gesture on hover. */
+.link-icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.link-icon .ico-fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+.link-arrow {
+  height: 0.85rem;
+  width: 0.85rem;
+  fill: none;
+  stroke: var(--faint);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition:
+    transform 0.2s ease,
+    stroke 0.2s ease;
+}
+
+.link:hover .link-arrow {
+  stroke: var(--brand);
+  transform: translate(2px, -2px);
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  width: 2.5rem;
+  padding: 0;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  color: var(--text);
+}
+
+@media (max-aspect-ratio: 4/5), (max-width: 720px) {
+  .theme-toggle {
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    backdrop-filter: blur(6px);
+  }
+}
+
+.theme-icon {
+  height: 1.4rem;
+  width: 1.4rem;
+}
+
+:root[data-theme="dark"] .sun-icon,
+:root:not([data-theme="dark"]) .moon-icon {
+  display: none;
+}
+
+.link:focus-visible,
+.theme-toggle:focus-visible,
+footer a:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+
+.link:focus-visible {
+  border-radius: 0.9rem;
+}
+
+footer {
+  position: relative;
+  z-index: 6;
+  padding: 1.5rem 1.25rem 2rem;
+  text-align: center;
+}
+
+footer p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+footer::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(50% - 13rem);
+  z-index: -1;
+  background: radial-gradient(closest-side, var(--bg) 42%, color-mix(in srgb, var(--bg) 72%, transparent) 62%, color-mix(in srgb, var(--bg) 30%, transparent) 82%, transparent);
+  pointer-events: none;
+}
+
+footer .attribution {
+  margin-top: 0.15rem;
+  font-size: 0.72rem;
+}
+
+footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+}
+
+/* Paper grain, under the plants and unblended so nothing repaints it. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: var(--grain-alpha);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='280' height='280' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Shorter screens: a tighter card so it always fits the fixed stage. */
+
+@media (max-height: 860px) {
+  .avatar-frame {
+    width: 7rem;
+  }
+
+  h1 {
+    margin-top: 0.8rem;
+  }
+
+  .links {
+    margin-top: 1.5rem;
+    gap: 0.5rem;
+  }
+
+  .link {
+    padding: 0.62rem 1rem;
+  }
+
+  footer {
+    padding: 1rem 1.25rem 1.4rem;
+  }
+}
+
+@media (max-height: 780px) {
+  .avatar-frame {
+    width: 5.5rem;
+  }
+
+  h1 {
+    margin: 0.6rem 0 0.25rem;
+    font-size: clamp(1.8rem, 4.4vw, 2.4rem);
+  }
+
+  .links {
+    margin-top: 1.1rem;
+    gap: 0.42rem;
+  }
+
+  .link {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.9rem;
+  }
+
+  footer {
+    padding: 0.7rem 1.25rem 1rem;
+  }
+}
+
+@media (max-height: 620px) {
+  .avatar-frame {
+    width: 4.6rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  .link {
+    padding: 0.44rem 0.85rem;
+  }
+}
+
+/* Landscape phones: the header sits beside the links. */
+
+@media (max-height: 520px) and (min-aspect-ratio: 1/1) {
+  .stage {
+    padding-top: 1rem;
+  }
+
+  .card {
+    width: min(100%, 44rem);
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .card header {
+    flex: 0 0 auto;
+  }
+
+  .avatar-frame {
+    width: 4.5rem;
+  }
+
+  h1 {
+    font-size: 1.7rem;
+  }
+
+  .links {
+    margin-top: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+  }
+
+  .link {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  footer {
+    padding: 0.4rem 1.25rem 0.8rem;
+  }
+}
+
+/* Room above the card for the scroll cue. */
+@media (prefers-reduced-motion: no-preference) {
+  .stage {
+    padding-top: calc(clamp(1.5rem, 4vh, 3rem) + 1.75rem);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (max-height: 520px) and (min-aspect-ratio: 1/1) {
+  .stage {
+    padding-top: 2.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-track {
+    height: auto;
+  }
+
+  .stage {
+    position: static;
+    height: auto;
+    min-height: calc(100svh - 6rem);
+  }
+
+  .scroll-cue {
+    display: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

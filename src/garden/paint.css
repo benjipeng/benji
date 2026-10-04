@@ -1,0 +1,83 @@
+/* How the garden paints. Plants are drawn by scripts/garden into public/garden/*.svg and
+   fetched for the plants a layout shows. Each plant is anchored at its base point (--bx,
+   --by, from anchors.css) at (--x, --y, from its garden's layout file) and sized by height
+   in --u units. Shapes carry classes, and these rules turn the tokens in src/tokens.css
+   into their fills and strokes. */
+
+.garden {
+  --u: min(1svh, 0.6vw);
+}
+
+.plant {
+  position: fixed;
+  z-index: -1;
+  display: none;
+  left: var(--x);
+  top: var(--y);
+  height: calc(var(--u) * var(--h));
+  aspect-ratio: var(--ar);
+  translate: calc(var(--bx) * -100% + var(--dx, 0px)) calc(var(--by) * -100% + var(--dy, 0px));
+  rotate: var(--r, 0deg);
+  scale: var(--flip, 1) 1;
+  transform-origin: calc(var(--bx) * 100%) calc(var(--by) * 100%);
+  pointer-events: none;
+}
+
+.garden .plant[data-crowded] {
+  display: none;
+}
+
+.plant svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Watercolor glazes: the base color (or --pc), shifted per shape by --dl, --dh, --dc, and
+   deepened for the moonlit garden by --garden-dim. */
+.garden .wash {
+  fill: oklch(from var(--pc, var(--leaf)) calc(l + var(--dl, 0) - var(--garden-dim)) calc(c * var(--dc, 1)) calc(h + var(--dh, 0)));
+  fill-opacity: 0.8;
+  stroke: oklch(from var(--pc, var(--leaf)) calc(l + var(--dl, 0) - 0.2 - var(--garden-dim)) calc(c * var(--dc, 1)) calc(h + var(--dh, 0) + 6));
+  stroke-opacity: 0.32;
+  stroke-width: calc(0.7 * var(--k));
+}
+.garden .wash.deep { fill: oklch(from var(--pc, var(--leaf)) calc(l + var(--dl, 0) - 0.22 - var(--garden-dim)) calc(c * var(--dc, 1)) calc(h + var(--dh, 0) + 12)); fill-opacity: 0.26; stroke: none; }
+.garden .wash.stem, .garden .wash.band, .garden .wash.lime, .garden .wash.heart, .garden .wash.blush, .garden .wash.green-cap, .garden .wash.keel, .garden .wash.petal, .garden .wash.lilac-flush, .garden .wash.anther, .garden .wash.filament { stroke: none; }
+.garden .wash.stem { fill-opacity: 0.7; }
+.garden .wash.band { fill: oklch(from var(--leaf) calc(l + 0.3 - var(--garden-dim)) calc(c * 0.4) calc(h - 10)); fill-opacity: 0.75; }
+.garden .wash.felt { fill-opacity: 0.72; }
+.garden .wash.lime { fill-opacity: 0.7; }
+.garden .wash.shine { fill: #fff; fill-opacity: calc(0.22 - var(--garden-dim) * 0.8); stroke: none; }
+.garden .wash.keel { fill: oklch(from var(--spathe) calc(l - 0.14 - var(--garden-dim)) calc(c * 1.1) calc(h + 18)); fill-opacity: 0.35; }
+.garden .wash.heart { fill-opacity: 0.7; }
+.garden .wash.bark { fill-opacity: 1; stroke: none; }
+.garden .wash.bark-shade { fill: oklch(from var(--pc) calc(l - 0.14 - var(--garden-dim)) c h); fill-opacity: 0.45; stroke: none; }
+.garden .wash.bark-lit { fill: #fff; fill-opacity: calc(0.18 - var(--garden-dim) * 0.6); stroke: none; }
+.garden .wash.blush { fill-opacity: 0.45; }
+.garden .wash.green-cap { fill-opacity: 0.55; }
+.garden .wash.petal { fill-opacity: 0.95; }
+.garden .wash.lilac-flush { fill-opacity: 0.24; }
+.garden .wash.lilac-flush.deep { fill: oklch(from var(--pc) calc(l - 0.16 - var(--garden-dim)) calc(c * 1.5) h); fill-opacity: 0.4; }
+.garden .wash.anther { fill-opacity: 0.9; }
+.garden .wash.filament { fill-opacity: 0.95; }
+.garden .vein-band { fill: none; stroke: oklch(from var(--leaf) calc(l + 0.5 - var(--garden-dim)) calc(c * 0.4) h); stroke-width: 4; stroke-linecap: round; stroke-opacity: 0.85; }
+
+/* Ink: one pen, light on the lit edge and heavy on the shadow side. Widths are CSS pixels at
+   any plant size: main.ts sets --k, the drawing units per pixel, on each plant. Faint lines
+   use stroke-opacity, which needs no compositing group of its own. */
+.garden .ink { fill: none; stroke: var(--garden-ink); stroke-linecap: round; stroke-linejoin: round; }
+.garden .ink.hair { stroke-width: calc(0.45 * var(--k)); stroke-opacity: 0.75; }
+.garden .ink.vein { stroke-opacity: 0.5; }
+.garden .ink.thin { stroke-width: calc(0.8 * var(--k)); }
+.garden .ink.mid { stroke-width: calc(1.1 * var(--k)); }
+.garden .ink.thick { stroke-width: calc(1.6 * var(--k)); }
+.garden .ink.dots { stroke-width: calc(1.6 * var(--k)); stroke-opacity: 0.5; }
+.garden .ink.root { stroke-opacity: 0.8; }
+.garden .ink.bark-tex { stroke-opacity: 0.4; }
+.garden .ink.bumps { stroke-opacity: 0.45; }
+.garden .ink.petal-edge { stroke-opacity: 0.6; }
+.garden .ink.petal-vein { stroke: var(--petal-vein); stroke-opacity: 0.45; }
+.garden .ink.petal-vein.standard { stroke: var(--petal-vein-deep); stroke-opacity: 0.65; }
+.garden .ink.filament-edge { stroke-opacity: 0.55; }

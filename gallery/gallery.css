@@ -1,0 +1,233 @@
+/* The token gallery's own layout. Colors come from src/tokens.css, like the site. */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3 {
+  font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.82em;
+}
+
+.intro,
+main {
+  width: min(100% - 2.5rem, 72rem);
+  margin-inline: auto;
+}
+
+.intro {
+  padding: 3.5rem 0 1rem;
+}
+
+.intro h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+}
+
+.intro p {
+  max-width: 44rem;
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.theme {
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+section {
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+}
+
+section h2 {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+}
+
+.lede {
+  margin: -0.5rem 0 1.25rem;
+  color: var(--muted);
+}
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+  gap: 0.9rem;
+}
+
+.swatch {
+  display: grid;
+  grid-template-columns: 2.6rem 1fr;
+  column-gap: 0.7rem;
+  align-items: center;
+  font-size: 0.78rem;
+}
+
+.chip {
+  grid-row: span 3;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+}
+
+.chip.value {
+  display: grid;
+  place-items: center;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.swatch .name {
+  color: var(--text);
+}
+
+.swatch .day,
+.swatch .night {
+  color: var(--muted);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+}
+
+.pen {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.stroke {
+  display: grid;
+  grid-template-columns: 220px 7rem 1fr;
+  align-items: center;
+  gap: 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.stroke svg {
+  width: 220px;
+  height: 24px;
+  overflow: visible;
+}
+
+.plants {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.plant-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 1.1rem;
+  background: var(--surface);
+}
+
+.figures {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+}
+
+.figures figure {
+  margin: 0;
+  height: 18rem;
+  padding: 1.1rem;
+  border-radius: 0.8rem;
+  background: var(--bg);
+}
+
+.figures svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.plant-card h3 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.latin {
+  margin: 0.1rem 0 0.6rem;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.note {
+  margin: 0 0 0.9rem;
+}
+
+.plant-card dl {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 0.3rem 0.8rem;
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+}
+
+.plant-card dt {
+  color: var(--muted);
+}
+
+.plant-card dd {
+  margin: 0;
+}
+
+.shifts {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.shifts span {
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  background: oklch(from var(--leaf) calc(l + var(--dl) - var(--garden-dim)) calc(c * var(--dc)) calc(h + var(--dh)));
+}
+
+@media (max-width: 860px) {
+  .plant-card,
+  .figures {
+    grid-template-columns: 1fr;
+  }
+
+  .stroke {
+    grid-template-columns: 160px 1fr;
+  }
+
+  .stroke span {
+    grid-column: 1 / -1;
+  }
+
+  .stroke svg {
+    width: 160px;
+  }
+}

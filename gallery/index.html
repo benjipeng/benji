@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Garden tokens</title>
+    <script>
+      try {
+        document.documentElement.dataset.theme = localStorage.getItem("theme") === "dark" ? "dark" : "light";
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <header class="intro">
+      <h1>Garden tokens</h1>
+      <p>
+        Every color and plant the garden is drawn with, read straight from the files that ship:
+        <code>src/tokens.css</code>, <code>src/garden/plants.json</code>, and the plant drawings.
+      </p>
+      <button class="theme" type="button" data-theme-toggle></button>
+    </header>
+    <main>
+      <div data-tokens></div>
+      <section>
+        <h2>Pen</h2>
+        <p class="lede">One pen at every plant size. The lit edge of a shape takes the thin line and the shadow edge the thick one.</p>
+        <div class="pen garden" data-pen></div>
+      </section>
+      <section>
+        <h2>Plants</h2>
+        <p class="lede">In order of rank, the order in which a crowded screen keeps them.</p>
+        <div class="plants garden" data-plants></div>
+      </section>
+    </main>
+    <script type="module" src="./gallery.ts"></script>
+  </body>
+</html>

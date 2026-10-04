@@ -1,0 +1,55 @@
+/* The tropical garden's layouts. Each layout lists the plants it shows, and plants it leaves
+   out are never fetched. Wider screens show more plants. Branches reach in from the sides,
+   vines and a basket fern hang from the top, and a bed rises along the bottom. */
+
+/* Portrait screens. */
+@media (max-aspect-ratio: 1/1) {
+  .garden { --u: min(0.8svh, 1.15vw); }
+  .plant.g-frangipani { display: block; --x: 0%; --y: calc(var(--u) * 34); --h: 44; }
+  .plant.g-philodendron { display: block; --x: 90%; --y: calc(var(--u) * -1); --h: 50; }
+  .plant.g-mango { display: block; --x: 100%; --y: 45%; --h: 40; --flip: -1; }
+  .plant.g-bauhinia { display: block; --x: 0%; --y: 60%; --h: 30; }
+  .plant.g-lychee { display: block; --x: 100%; --y: 72%; --h: 36; --flip: -1; }
+  .plant.g-monstera { display: block; --x: 8%; --y: calc(100svh + var(--u) * 5); --h: 44; }
+  .plant.g-strelitzia { display: block; --x: 93%; --y: calc(100svh + var(--u) * 6); --h: 44; }
+}
+
+/* Portrait tablets and tall windows: a basket fern and a low rosette join. */
+@media (max-aspect-ratio: 1/1) and (min-width: 600px) {
+  .plant.g-staghorn { display: block; --x: 70%; --y: calc(var(--u) * -1); --h: 30; }
+  .plant.g-calathea { display: block; --x: 30%; --y: calc(100svh + var(--u) * 5); --h: 24; }
+}
+
+/* Landscape screens. */
+@media (min-aspect-ratio: 1001/1000) and (min-height: 521px) {
+  .garden { --u: min(1svh, 0.6vw); }
+  .plant.g-philodendron { display: block; --x: 19%; --y: calc(var(--u) * -1); --h: 48; }
+  .plant.g-staghorn { display: block; --x: 84%; --y: calc(var(--u) * -1); --h: 34; }
+  .plant.g-frangipani { display: block; --x: 0%; --y: 44%; --h: 54; }
+  .plant.g-mango { display: block; --x: 100%; --y: 30%; --h: 46; --flip: -1; }
+  .plant.g-bauhinia { display: block; --x: 0%; --y: 84%; --h: 28; }
+  .plant.g-lychee { display: block; --x: 100%; --y: 62%; --h: 38; --flip: -1; }
+  .plant.g-monstera { display: block; --x: 8%; --y: calc(100svh + var(--u) * 4); --h: 46; }
+  .plant.g-strelitzia { display: block; --x: 91%; --y: calc(100svh + var(--u) * 8); --h: 44; }
+}
+
+@media (min-aspect-ratio: 1001/1000) and (min-height: 521px) and (min-width: 1200px) {
+  .plant.g-calathea { display: block; --x: 71%; --y: calc(100svh + var(--u) * 5); --h: 24; }
+}
+
+/* Large screens: a trailing vine, a fan palm, and an alocasia fill the wider margins. */
+@media (min-aspect-ratio: 1001/1000) and (min-height: 521px) and (min-width: 1600px) {
+  .plant.g-adansonii { display: block; --x: 0%; --y: 18%; --h: 34; }
+  .plant.g-palm { display: block; --x: 35%; --y: calc(100svh + var(--u) * 6); --h: 32; }
+  .plant.g-alocasia { display: block; --x: 80%; --y: calc(100svh + var(--u) * 4); --h: 36; }
+}
+
+/* Short landscape phones: a branch from each side and a plant in each bottom corner. */
+@media (min-aspect-ratio: 1001/1000) and (max-height: 520px) {
+  .garden { --u: min(1svh, 0.5vw); }
+  .plant.g-frangipani { display: block; --x: 0%; --y: 30%; --h: 50; }
+  .plant.g-mango { display: block; --x: 100%; --y: 24%; --h: 44; --flip: -1; }
+  .plant.g-lychee { display: block; --x: 100%; --y: 78%; --h: 34; --flip: -1; }
+  .plant.g-monstera { display: block; --x: 6%; --y: calc(100svh + var(--u) * 4); --h: 40; }
+  .plant.g-strelitzia { display: block; --x: 95%; --y: calc(100svh + var(--u) * 6); --h: 40; }
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "name": "calathea",
+    "garden": "tropical",
+    "rank": 9,
+    "common": "Calathea",
+    "latin": "Goeppertia orbifolia",
+    "note": "Round leaves banded with silver along the veins.",
+    "enters": "Low in the bed, in front",
+    "grows": "The rosette opens leaf by leaf"
+  },
+  {
+    "name": "monstera",
+    "garden": "tropical",
+    "rank": 3,
+    "common": "Monstera",
+    "latin": "Monstera deliciosa",
+    "note": "A broad heart split from the margin and pierced along the midrib.",
+    "enters": "Rises from a bottom corner",
+    "grows": "Stalks rise, then leaves unfurl"
+  },
+  {
+    "name": "strelitzia",
+    "garden": "tropical",
+    "rank": 4,
+    "common": "Bird of paradise",
+    "latin": "Strelitzia reginae",
+    "note": "Long paddles in a fan, torn by the wind, and one crane flower on its own stalk.",
+    "enters": "Rises from a bottom corner",
+    "grows": "Paddles rise in turn, and the flower opens last"
+  },
+  {
+    "name": "palm",
+    "garden": "tropical",
+    "rank": 12,
+    "common": "Ruffled fan palm",
+    "latin": "Licuala grandis",
+    "note": "Pleated, nearly round fans on long toothed stalks.",
+    "enters": "Rises from the bottom",
+    "grows": "Stalks extend, then each fan opens"
+  },
+  {
+    "name": "alocasia",
+    "garden": "tropical",
+    "rank": 11,
+    "common": "Alocasia",
+    "latin": "Alocasia amazonica",
+    "note": "Dark arrowheads with scalloped edges and silver veins.",
+    "enters": "Rises from the bottom",
+    "grows": "Stalks rise, and leaves tilt open"
+  },
+  {
+    "name": "staghorn",
+    "garden": "tropical",
+    "rank": 8,
+    "common": "Staghorn fern",
+    "latin": "Platycerium bifurcatum",
+    "note": "Shield fronds over a hanging basket, and broad antler fronds that fork into rounded lobes.",
+    "enters": "Hangs from the top",
+    "grows": "Antler fronds unfold one by one"
+  },
+  {
+    "name": "philodendron",
+    "garden": "tropical",
+    "rank": 7,
+    "common": "Heart-leaf philodendron",
+    "latin": "Philodendron hederaceum",
+    "note": "Glossy hearts, some streaked with lime, on a trailing stem.",
+    "enters": "Trails down from the top",
+    "grows": "The stem lengthens downward, and hearts unfold"
+  },
+  {
+    "name": "adansonii",
+    "garden": "tropical",
+    "rank": 10,
+    "common": "Swiss cheese vine",
+    "latin": "Monstera adansonii",
+    "note": "Small leaves full of oval holes on a wandering stem.",
+    "enters": "Trails in from a side",
+    "grows": "The stem extends, and leaves unfold behind the tip"
+  },
+  {
+    "name": "bauhinia",
+    "garden": "tropical",
+    "rank": 6,
+    "common": "Orchid tree",
+    "latin": "Bauhinia variegata",
+    "note": "Two-lobed butterfly leaves on a slender branch, and orchid-like flowers with fine curving stamens.",
+    "enters": "Reaches in from a side",
+    "grows": "The branch extends, leaves open, and flowers come last"
+  },
+  {
+    "name": "lychee",
+    "garden": "tropical",
+    "rank": 5,
+    "common": "Lychee",
+    "latin": "Litchi chinensis",
+    "note": "Drooping leaves of glossy leaflets and a hanging cluster of pebbled rose-red fruit.",
+    "enters": "Reaches in from a side",
+    "grows": "The limb extends, leaves unfold, and the fruit drops last"
+  },
+  {
+    "name": "mango",
+    "garden": "tropical",
+    "rank": 2,
+    "common": "Mango",
+    "latin": "Mangifera indica",
+    "note": "Loose clusters of smooth leathery leaves, and mangoes ripening from green to gold.",
+    "enters": "Reaches in from a side",
+    "grows": "The limb extends, clusters open, and the fruit swells last"
+  },
+  {
+    "name": "frangipani",
+    "garden": "tropical",
+    "rank": 1,
+    "common": "Frangipani",
+    "latin": "Plumeria rubra",
+    "note": "Thick, smooth limbs that end blunt, spiral rosettes of broad leaves, and pinwheel flowers warming to yellow at the heart.",
+    "enters": "Reaches in from a side",
+    "grows": "The limb extends and forks, rosettes open, and flowers come last"
+  }
+]
