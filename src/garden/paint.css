@@ -34,35 +34,36 @@
   overflow: visible;
 }
 
-/* Watercolor glazes: the base color (or --pc), shifted per shape by --dl, --dh, --dc, and
-   deepened for the moonlit garden by --garden-dim. */
+/* Watercolor glazes: the base color (or --pc), shifted per shape by --dl, --dh, --dc. */
 .garden .wash {
-  fill: oklch(from var(--pc, var(--leaf)) calc(l + var(--dl, 0) - var(--garden-dim)) calc(c * var(--dc, 1)) calc(h + var(--dh, 0)));
+  fill: oklch(from var(--pc, var(--leaf)) calc(l + var(--dl, 0)) calc(c * var(--dc, 1)) calc(h + var(--dh, 0)));
   fill-opacity: 0.8;
-  stroke: oklch(from var(--pc, var(--leaf)) calc(l + var(--dl, 0) - 0.2 - var(--garden-dim)) calc(c * var(--dc, 1)) calc(h + var(--dh, 0) + 6));
+  stroke: oklch(from var(--pc, var(--leaf)) calc(l + var(--dl, 0) - 0.2) calc(c * var(--dc, 1)) calc(h + var(--dh, 0) + 6));
   stroke-opacity: 0.32;
   stroke-width: calc(0.7 * var(--k));
 }
-.garden .wash.deep { fill: oklch(from var(--pc, var(--leaf)) calc(l + var(--dl, 0) - 0.22 - var(--garden-dim)) calc(c * var(--dc, 1)) calc(h + var(--dh, 0) + 12)); fill-opacity: 0.26; stroke: none; }
+.garden .wash.deep { fill: oklch(from var(--pc, var(--leaf)) calc(l + var(--dl, 0) - 0.22) calc(c * var(--dc, 1)) calc(h + var(--dh, 0) + 12)); fill-opacity: 0.26; stroke: none; }
 .garden .wash.stem, .garden .wash.band, .garden .wash.lime, .garden .wash.heart, .garden .wash.blush, .garden .wash.green-cap, .garden .wash.keel, .garden .wash.petal, .garden .wash.lilac-flush, .garden .wash.anther, .garden .wash.filament { stroke: none; }
 .garden .wash.stem { fill-opacity: 0.7; }
-.garden .wash.band { fill: oklch(from var(--leaf) calc(l + 0.3 - var(--garden-dim)) calc(c * 0.4) calc(h - 10)); fill-opacity: 0.75; }
+.garden .wash.band { fill: oklch(from var(--leaf) calc(l + 0.3) calc(c * 0.4) calc(h - 10)); fill-opacity: 0.75; }
 .garden .wash.felt { fill-opacity: 0.72; }
 .garden .wash.lime { fill-opacity: 0.7; }
-.garden .wash.shine { fill: #fff; fill-opacity: calc(0.22 - var(--garden-dim) * 0.8); stroke: none; }
-.garden .wash.keel { fill: oklch(from var(--spathe) calc(l - 0.14 - var(--garden-dim)) calc(c * 1.1) calc(h + 18)); fill-opacity: 0.35; }
+.garden .wash.shine { fill: #fff; fill-opacity: 0.22; stroke: none; }
+.garden .wash.keel { fill: oklch(from var(--spathe) calc(l - 0.14) calc(c * 1.1) calc(h + 18)); fill-opacity: 0.35; }
 .garden .wash.heart { fill-opacity: 0.7; }
 .garden .wash.bark { fill-opacity: 1; stroke: none; }
-.garden .wash.bark-shade { fill: oklch(from var(--pc) calc(l - 0.14 - var(--garden-dim)) c h); fill-opacity: 0.45; stroke: none; }
-.garden .wash.bark-lit { fill: #fff; fill-opacity: calc(0.18 - var(--garden-dim) * 0.6); stroke: none; }
+.garden .wash.bark-shade { fill: oklch(from var(--pc) calc(l - 0.14) c h); fill-opacity: 0.45; stroke: none; }
+.garden .wash.bark-lit { fill: #fff; fill-opacity: 0.18; stroke: none; }
 .garden .wash.blush { fill-opacity: 0.45; }
 .garden .wash.green-cap { fill-opacity: 0.55; }
 .garden .wash.petal { fill-opacity: 0.95; }
 .garden .wash.lilac-flush { fill-opacity: 0.24; }
-.garden .wash.lilac-flush.deep { fill: oklch(from var(--pc) calc(l - 0.16 - var(--garden-dim)) calc(c * 1.5) h); fill-opacity: 0.4; }
+.garden .wash.lilac-flush.deep { fill: oklch(from var(--pc) calc(l - 0.16) calc(c * 1.5) h); fill-opacity: 0.4; }
 .garden .wash.anther { fill-opacity: 0.9; }
+.garden .wash.fruit:not(.deep) { fill-opacity: 0.96; }
 .garden .wash.filament { fill-opacity: 0.95; }
-.garden .vein-band { fill: none; stroke: oklch(from var(--leaf) calc(l + 0.5 - var(--garden-dim)) calc(c * 0.4) h); stroke-width: 4; stroke-linecap: round; stroke-opacity: 0.85; }
+.garden .wash.needles { fill: none; stroke: oklch(from var(--leaf) calc(l + var(--dl, 0)) calc(c * var(--dc, 1)) calc(h + var(--dh, 0))); stroke-width: calc(1.8 * var(--k)); stroke-linecap: round; stroke-opacity: 0.85; }
+.garden .vein-band { fill: none; stroke: oklch(from var(--leaf) calc(l + 0.5) calc(c * 0.4) h); stroke-width: 4; stroke-linecap: round; stroke-opacity: 0.85; }
 
 /* Ink: one pen, light on the lit edge and heavy on the shadow side. Widths are CSS pixels at
    any plant size: main.ts sets --k, the drawing units per pixel, on each plant. Faint lines

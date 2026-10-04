@@ -118,5 +118,125 @@
     "note": "Thick, smooth limbs that end blunt, spiral rosettes of broad leaves, and pinwheel flowers warming to yellow at the heart.",
     "enters": "Reaches in from a side",
     "grows": "The limb extends and forks, rosettes open, and flowers come last"
+  },
+  {
+    "name": "cypress",
+    "garden": "mediterranean",
+    "rank": 3,
+    "common": "Italian cypress",
+    "latin": "Cupressus sempervirens",
+    "note": "Two dark flames of upward sprays, catching the moon along one side.",
+    "enters": "Rises from the bottom",
+    "grows": "Each column grows up from its base"
+  },
+  {
+    "name": "acanthus",
+    "garden": "mediterranean",
+    "rank": 11,
+    "common": "Acanthus",
+    "latin": "Acanthus mollis",
+    "note": "The glossy, deeply lobed leaf of the Corinthian capital, and a tall spike of pale flowers under purple hoods.",
+    "enters": "Rises from the bottom",
+    "grows": "Leaves open, the spike rises, and its flowers open from the bottom up"
+  },
+  {
+    "name": "agave",
+    "garden": "mediterranean",
+    "rank": 7,
+    "common": "Agave",
+    "latin": "Agave americana",
+    "note": "A rosette of thick blue-grey leaves with toothed edges, dark tips, and the pale prints of their neighbors.",
+    "enters": "Rises from a bottom corner",
+    "grows": "Leaves open from the center outward"
+  },
+  {
+    "name": "lavender",
+    "garden": "mediterranean",
+    "rank": 5,
+    "common": "Lavender",
+    "latin": "Lavandula angustifolia",
+    "note": "A grey-green mound and a fan of slender stems, each tipped with violet whorls.",
+    "enters": "Rises from the bottom",
+    "grows": "The mound fills in, then the stems lift their spikes"
+  },
+  {
+    "name": "rosemary",
+    "garden": "mediterranean",
+    "rank": 12,
+    "common": "Rosemary",
+    "latin": "Salvia rosmarinus",
+    "note": "Upright woody stems dense with needle leaves, dark above and silver below, and pale blue flowers.",
+    "enters": "Rises from the bottom",
+    "grows": "Stems rise one by one"
+  },
+  {
+    "name": "grapevine",
+    "garden": "mediterranean",
+    "rank": 8,
+    "common": "Grapevine",
+    "latin": "Vitis vinifera",
+    "note": "A woody cane from the pergola, serrated leaves, curling tendrils, and dusky bunches with a pale bloom.",
+    "enters": "Hangs from the top",
+    "grows": "The cane lengthens downward, leaves unfold, and the bunches hang last"
+  },
+  {
+    "name": "jasmine",
+    "garden": "mediterranean",
+    "rank": 9,
+    "common": "Star jasmine",
+    "latin": "Trachelospermum jasminoides",
+    "note": "Twining stems, small glossy leaves in pairs, and white pinwheel flowers that open at night.",
+    "enters": "Trails down from the top",
+    "grows": "Stems lengthen, leaves unfold, and flowers open last"
+  },
+  {
+    "name": "bougainvillea",
+    "garden": "mediterranean",
+    "rank": 4,
+    "common": "Bougainvillea",
+    "latin": "Bougainvillea spectabilis",
+    "note": "Thorny canes arching out and down, heavy with papery magenta bracts in threes.",
+    "enters": "Arches in from the top",
+    "grows": "Canes arch out, leaves unfold, and the bracts open last"
+  },
+  {
+    "name": "pine",
+    "garden": "mediterranean",
+    "rank": 10,
+    "common": "Stone pine",
+    "latin": "Pinus pinea",
+    "note": "Plated red-brown bark, long needles bursting in tufts, and broad scaled cones.",
+    "enters": "Reaches in from a side",
+    "grows": "The limb extends, tufts burst open, and cones come last"
+  },
+  {
+    "name": "fig",
+    "garden": "mediterranean",
+    "rank": 6,
+    "common": "Fig",
+    "latin": "Ficus carica",
+    "note": "A smooth grey branch, broad lobed leaves, and pear-shaped figs, violet with a green neck.",
+    "enters": "Reaches in from a side",
+    "grows": "The branch extends, leaves open at the tips, and figs swell last"
+  },
+  {
+    "name": "lemon",
+    "garden": "mediterranean",
+    "rank": 2,
+    "common": "Lemon",
+    "latin": "Citrus limon",
+    "note": "A slender thorny branch, glossy leaves, lemons that glow in the dark, and waxy blossom flushed purple.",
+    "enters": "Reaches in from a side",
+    "grows": "The branch extends, leaves unfold, lemons hang, and blossom opens last"
+  },
+  {
+    "name": "olive",
+    "garden": "mediterranean",
+    "rank": 1,
+    "common": "Olive",
+    "latin": "Olea europaea",
+    "note": "A gnarled silver branch, narrow leaves dark above and silver beneath, and olives ripening to violet-black.",
+    "enters": "Reaches in from a side",
+    "grows": "The branch extends, twigs leaf out, and olives come last"
   }
 ]

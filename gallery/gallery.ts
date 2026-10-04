@@ -37,7 +37,7 @@ function readTokens() {
 function renderTokens() {
   const host = document.querySelector("[data-tokens]")!;
   for (const group of readTokens()) {
-    const section = el("section");
+    const section = el("section", /Mediterranean/.test(group.title) ? "night" : "");
     section.append(el("h2", "", group.title));
     const grid = el("div", "swatches");
     for (const token of group.items) {
@@ -83,9 +83,29 @@ const SHIFTS = [
   [0.04, -12, 0.85],
 ];
 
+// One section per garden. The Mediterranean garden only ever shows at night, so its section
+// always uses the night set.
+const GARDENS = [
+  { key: "tropical", title: "Tropical garden", note: "Shown by day. Plants in order of rank, the order in which a crowded screen keeps them.", night: false },
+  { key: "mediterranean", title: "Mediterranean garden", note: "Shown at night. Plants in order of rank.", night: true },
+];
+
 async function renderPlants() {
-  const host = document.querySelector("[data-plants]")!;
-  for (const plant of [...PLANTS].sort((a, b) => a.rank - b.rank)) {
+  for (const garden of GARDENS) {
+    const plants = PLANTS.filter((plant) => plant.garden === garden.key);
+    if (!plants.length) continue;
+    const section = el("section", garden.night ? "garden-set night" : "garden-set");
+    section.append(el("h2", "", garden.title), el("p", "lede", garden.note));
+    const host = el("div", "plants garden");
+    section.append(host);
+    document.querySelector("[data-gardens]")!.append(section);
+    await renderCards(host, plants);
+  }
+  scaleInk();
+}
+
+async function renderCards(host: Element, plants: typeof PLANTS) {
+  for (const plant of [...plants].sort((a, b) => a.rank - b.rank)) {
     const card = el("article", `plant-card g-${plant.name}`);
     const [drawing, detail] = await Promise.all([
       fetch(`/garden/${plant.name}.svg`).then((r) => r.text()),
@@ -122,7 +142,6 @@ async function renderPlants() {
     card.append(figures, text);
     host.append(card);
   }
-  scaleInk();
 }
 
 // Ink keeps one pen width at every size: --k is drawing units per CSS pixel. Each drawing is

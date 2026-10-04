@@ -5,7 +5,7 @@
 import { TAU, rad, P1, add, sub, mul, rot, polar, lerp, wobble, line, closed, sample, glaze, vars, tone, shape, inkEdges, grow, part } from "./lib.mjs";
 
 // Smooth spine through control points (Catmull-Rom), sampled evenly per segment.
-function spineThrough(ctrl, perSeg = 14) {
+export function spineThrough(ctrl, perSeg = 14) {
   const out = [];
   for (let i = 0; i < ctrl.length - 1; i++) {
     const p0 = ctrl[Math.max(0, i - 1)];
@@ -24,7 +24,7 @@ function spineThrough(ctrl, perSeg = 14) {
   out.push(ctrl[ctrl.length - 1]);
   return out;
 }
-const angleOf = (pts, i) => {
+export const angleOf = (pts, i) => {
   const a = pts[Math.max(0, i - 1)];
   const b = pts[Math.min(pts.length - 1, i + 1)];
   return Math.atan2(b[1] - a[1], b[0] - a[0]);
@@ -34,7 +34,7 @@ const angleOf = (pts, i) => {
 // a lit sliver along the top, bark texture in the shadow, and ink that is light above
 // and heavy below. `cap` is "blunt" (rounded end) or "taper". Forks are drawn on top of
 // their parent with ink starting past the crotch, so the joint reads as one piece.
-function limb(out, r, ctrl, { w0, w1, cap = "taper", pc = "--bark", lenticels = false, inkFrom = 0, swell = [] }) {
+export function limb(out, r, ctrl, { w0, w1, cap = "taper", pc = "--bark", lenticels = false, inkFrom = 0, swell = [] }) {
   const pts = spineThrough(ctrl);
   const n = pts.length - 1;
   const width = (t) => (w0 + (w1 - w0) * t ** 0.85) * (1 + swell.reduce((s, [at, k]) => s + k * Math.exp(-(((t - at) / 0.04) ** 2)), 0));

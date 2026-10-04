@@ -11,3 +11,15 @@
 .g-lychee { --ar: 1.3619; --bx: 0.0486; --by: 0.5024; --leaf: var(--pl-lychee); }
 .g-mango { --ar: 1.5851; --bx: 0.0428; --by: 0.5058; --leaf: var(--pl-mango); }
 .g-frangipani { --ar: 1.4417; --bx: 0.0506; --by: 0.7201; --leaf: var(--pl-frangipani); }
+.g-cypress { --ar: 0.3661; --bx: 0.4783; --by: 0.9855; --leaf: var(--pl-cypress); }
+.g-acanthus { --ar: 0.9256; --bx: 0.5039; --by: 0.8639; --leaf: var(--pl-acanthus); }
+.g-agave { --ar: 1.1215; --bx: 0.4876; --by: 0.9418; --leaf: var(--pl-agave); }
+.g-lavender { --ar: 1.4171; --bx: 0.4698; --by: 0.9686; --leaf: var(--pl-lavender); }
+.g-rosemary { --ar: 0.9140; --bx: 0.4471; --by: 0.9731; --leaf: var(--pl-rosemary); }
+.g-grapevine { --ar: 0.6877; --bx: 0.4188; --by: 0.0129; --leaf: var(--pl-grapevine); }
+.g-jasmine { --ar: 0.3519; --bx: 0.5663; --by: 0.0162; --leaf: var(--pl-jasmine); }
+.g-bougainvillea { --ar: 0.8303; --bx: 0.0162; --by: 0.0824; --leaf: var(--pl-bougainvillea); }
+.g-pine { --ar: 1.3387; --bx: 0.0559; --by: 0.7201; --leaf: var(--pl-pine); }
+.g-fig { --ar: 1.3007; --bx: 0.0447; --by: 0.7660; --leaf: var(--pl-fig); }
+.g-lemon { --ar: 2.2402; --bx: 0.0550; --by: 0.5646; --leaf: var(--pl-lemon); }
+.g-olive { --ar: 1.5238; --bx: 0.0547; --by: 0.5337; --leaf: var(--pl-olive); }

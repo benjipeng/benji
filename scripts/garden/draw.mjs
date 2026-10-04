@@ -10,6 +10,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { rng, rad, compact } from "./lib.mjs";
 import * as W from "./woody.mjs";
 import * as H from "./herbs.mjs";
+import * as M from "./mediterranean.mjs";
 
 const REGISTRY = JSON.parse(readFileSync(new URL("../../src/garden/plants.json", import.meta.url), "utf8"));
 
@@ -29,6 +30,47 @@ const PLANTS = {
   calathea: { seed: 1021, draw: (o, r) => H.calathea(o, r, [0, 0]), detail: (o, r) => H.calatheaLeaf(o, r, [40, 150], 0, 230) },
   staghorn: { seed: 1122, draw: (o, r) => H.staghorn(o, r, [0, 0]), detail: (o, r) => H.antlerFrond(o, r, [24, 90], rad(-4), 360, 90, 0.35) },
   philodendron: { seed: 1223, draw: (o, r) => H.philodendron(o, r, [0, 0]), detail: (o, r) => H.heartLeaf(o, r, [40, 150], 0, 220) },
+  olive: {
+    seed: 1324,
+    draw: (o, r) => M.olive(o, r, [0, 0]),
+    detail: (o, r) => {
+      [-130, -106, -82, -58].forEach((d, i) => M.oliveLeaf(o, r, [0, 0], rad(d), 110 - i * 5));
+      M.oliveFruit(o, r, [22, 34], 17, true);
+      M.oliveFruit(o, r, [-16, 40], 16, false);
+    },
+  },
+  fig: {
+    seed: 1425,
+    draw: (o, r) => M.fig(o, r, [0, 0]),
+    detail: (o, r) => {
+      M.figLeaf(o, r, [0, 0], rad(-90), 220);
+      M.figFruit(o, r, [170, -60], rad(70), 96);
+    },
+  },
+  lemon: {
+    seed: 1526,
+    draw: (o, r) => M.lemon(o, r, [0, 0]),
+    detail: (o, r) => {
+      M.lemonFruit(o, r, [0, 0], 160, 0.12);
+      M.lemonBlossom(o, r, [170, 40], 54, 0.3);
+    },
+  },
+  pine: { seed: 1627, draw: (o, r) => M.pine(o, r, [0, 0]), detail: (o, r) => M.pineCone(o, r, [0, 0], 200, -0.15) },
+  grapevine: { seed: 1728, draw: (o, r) => M.grapevine(o, r, [0, 0]), detail: (o, r) => M.grapeCluster(o, r, [0, 0], 260) },
+  jasmine: {
+    seed: 1829,
+    draw: (o, r) => M.jasmine(o, r, [0, 0]),
+    detail: (o, r) => {
+      M.jasmineFlower(o, r, [0, 0], 80, 0.2);
+      M.jasmineFlower(o, r, [110, 50], 60, 1.1);
+    },
+  },
+  bougainvillea: { seed: 1930, draw: (o, r) => M.bougainvillea(o, r, [0, 0]), detail: (o, r) => M.bougainvilleaCluster(o, r, [0, 0], 120, 0.4) },
+  cypress: { seed: 2031, draw: (o, r) => M.cypress(o, r, [0, 0]), detail: (o, r) => M.cypressColumn(o, r, [0, 0], 420, 92) },
+  lavender: { seed: 2132, draw: (o, r) => M.lavender(o, r, [0, 0]), detail: (o, r) => M.lavenderSpike(o, r, [0, 0], rad(-90), 72) },
+  rosemary: { seed: 2233, draw: (o, r) => M.rosemary(o, r, [0, 0]), detail: (o, r) => M.rosemaryStem(o, r, [0, 0], rad(-90), 300) },
+  agave: { seed: 2334, draw: (o, r) => M.agave(o, r, [0, 0]), detail: (o, r) => M.agaveLeaf(o, r, [0, 0], rad(-80), 320, 0.04) },
+  acanthus: { seed: 2435, draw: (o, r) => M.acanthus(o, r, [0, 0]), detail: (o, r) => M.acanthusLeaf(o, r, [0, 0], rad(-30), 320) },
 };
 
 // Bounding box from the absolute coordinates in path data, read before it is compacted.
