@@ -167,7 +167,7 @@ function numbers(vals) {
   }
   return s;
 }
-const ARGS = { M: 2, L: 2, C: 6, S: 4, Q: 4, a: 7 };
+const ARGS = { M: 2, L: 2, C: 6, S: 4, Q: 4, H: 1, V: 1, m: 2, l: 2, c: 6, s: 4, q: 4, h: 1, v: 1, a: 7 };
 export function compact(d) {
   const tok = d.match(/[a-zA-Z]|-?\d*\.?\d+/g);
   let out = "";
@@ -189,6 +189,24 @@ export function compact(d) {
       out += `a${v.join(" ")}`;
       x += v[5];
       y += v[6];
+      c2 = null;
+      continue;
+    }
+    // Relative commands are already short: pass them through and keep track of the pen.
+    if (cmd === cmd.toLowerCase()) {
+      out += cmd + numbers(v);
+      if (cmd === "h") x += v[0];
+      else if (cmd === "v") y += v[0];
+      else [x, y] = [x + v[v.length - 2], y + v[v.length - 1]];
+      if (cmd === "m") [x0, y0, cmd] = [x, y, "l"];
+      c2 = null;
+      continue;
+    }
+    if (cmd === "H" || cmd === "V") {
+      const k = cmd === "H" ? 0 : 1;
+      out += cmd.toLowerCase() + numbers([v[0] - (k ? y : x)]);
+      if (k) y = v[0];
+      else x = v[0];
       c2 = null;
       continue;
     }

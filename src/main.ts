@@ -78,38 +78,38 @@ addEventListener(
 if (!still) {
   // Entrance: time-based, on transform and opacity. The scroll drift below uses `translate`.
   animate(".card header", { y: [18, 0], opacity: [0, 1], duration: 700, ease: "out(2)" });
-  animate(".links .link", { y: [16, 0], opacity: [0, 1], duration: 550, delay: stagger(60, { start: 150 }), ease: "out(2)" });
+  animate(".link-row", { y: [16, 0], opacity: [0, 1], duration: 550, delay: stagger(60, { start: 150 }), ease: "out(2)" });
   drawIcons(550);
   followScroll();
 
   document.querySelectorAll<HTMLAnchorElement>(".link").forEach((link) => {
     const play = gesture(link);
-    if (!play) return;
     link.addEventListener("mouseenter", play);
     link.addEventListener("focus", play);
   });
 }
 
-// Scroll story: one smoothed progress value grows the garden. Links drift at staggered rates
-// in a single column, and together when they sit in two columns. The cue's seedling grows
-// along, and the cue fades out before the rising card reaches it. The value eases toward the
-// page's scroll and stops ticking once it arrives.
+// Scroll story: one smoothed progress value grows the garden. Link rows drift at staggered
+// rates, measured in the height of a one-line row so taller rows never close the gap above
+// them. The cue's seedling grows along, and the cue fades out before the rising card reaches
+// it. The value eases toward the page's scroll and stops ticking once it arrives.
 function followScroll() {
   const track = document.querySelector<HTMLElement>(".scroll-track")!;
   const header = document.querySelector<HTMLElement>(".card header")!;
-  const links = [...document.querySelectorAll<HTMLElement>(".links .link")];
+  const rows = [...document.querySelectorAll<HTMLElement>(".link-row")];
   const cue = document.querySelector<HTMLElement>(".scroll-cue")!;
   const stem = cue.querySelector<SVGPathElement>(".sprout-stem")!;
   const [left, right] = cue.querySelectorAll<SVGPathElement>(".sprout-leaf");
   stem.setAttribute("pathLength", "1");
   stem.style.strokeDasharray = "1";
-  const twoColumns = matchMedia("(max-height: 520px) and (min-aspect-ratio: 1/1)");
   let span = 1;
+  let unit = 0;
   let target = 0;
   let frame = 0;
   let last = 0;
   const measure = () => {
     span = Math.max(1, track.offsetHeight - innerHeight);
+    unit = rows[0].offsetHeight;
     onScroll();
   };
   const onScroll = () => {
@@ -122,7 +122,7 @@ function followScroll() {
     if (Math.abs(target - growth.scroll) < 5e-4) growth.scroll = target;
     const s = growth.scroll;
     header.style.translate = `0 ${-12 * s}%`;
-    links.forEach((link, i) => (link.style.translate = `0 ${-(twoColumns.matches ? 12 : 20 + i * 12) * s}%`));
+    rows.forEach((row, i) => (row.style.translate = `0 ${-(0.2 + i * 0.12) * unit * s}px`));
     cue.style.opacity = String(clamp((0.6 - s) / 0.2));
     cue.style.visibility = s < 0.6 ? "" : "hidden"; // a hidden cue costs its blur nothing
     stem.style.strokeDashoffset = String(0.22 * (1 - clamp(s / 0.45)));
@@ -364,11 +364,12 @@ function drawIcons(delay: number) {
     const start = delay + i * 70;
     const strokes = svg.querySelectorAll<SVGGeometryElement>("path, rect, circle, ellipse:not(.ico-fill)");
     animate(createDrawable(strokes), { draw: ["0 0", "0 1"], duration: 900, delay: stagger(80, { start }), ease: "inOut(2)" });
-    animate(svg.querySelectorAll(".ico-fill"), { opacity: [0, 1], duration: 400, delay: start + 600 });
+    const fills = svg.querySelectorAll(".ico-fill");
+    if (fills.length) animate(fills, { opacity: [0, 1], duration: 400, delay: start + 600 });
   });
 }
 
-function gesture(link: HTMLAnchorElement): (() => void) | undefined {
+function gesture(link: HTMLAnchorElement): () => void {
   // Pivots are in the icon's 24-unit grid.
   const q = (s: string, pivot?: string) => {
     const els = link.querySelectorAll<SVGElement>(s);
@@ -422,9 +423,24 @@ function gesture(link: HTMLAnchorElement): (() => void) | undefined {
         .add(plane, { x: 0, y: 0, opacity: 1, duration: 450, ease: "out(3)" });
       break;
     }
-    default:
-      return;
+    case "appautomaton":
+      tl.add(q(".ico-frame", "12px 12px"), { rotate: [0, 90], duration: 650, ease: "outBack(2)" })
+        .add(q(".ico-core", "12px 12px"), { scale: 1.6, duration: 160, alternate: true, loop: 1, ease: "out(2)" }, 120);
+      break;
+    case "mocubix": {
+      // A split-flap turnover: the top half folds onto the hinge, then both halves swing out.
+      const top = q(".ico-flap-top", "12px 12px");
+      const bottom = q(".ico-flap-bottom", "12px 12px");
+      tl.add(top, { scaleY: [1, 0], duration: 150, ease: "in(2)" })
+        .set(bottom, { scaleY: 0 }, 150)
+        .add(bottom, { scaleY: 1, duration: 260, ease: "out(3)" }, 150)
+        .add(top, { scaleY: 1, duration: 260, ease: "out(3)" }, 230);
+      break;
+    }
   }
+  // The corner arrow flies in from below and to the left, alongside every icon's gesture. On an
+  // <svg>, x and y are attributes, so the flight names its transforms.
+  tl.add(q(".link-arrow"), { translateX: [-7, 0], translateY: [7, 0], duration: 450, ease: "out(3)" }, 0);
   return () => {
     if (tl.paused || tl.completed) tl.restart();
   };

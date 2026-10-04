@@ -15,8 +15,14 @@ Benji Peng's professional contact card at `benji.appcubic.com`, published from
 
 - The card is fixed and stays distinct from benji.renocrypt.com: centered,
   system font stacks (serif name, mono eyebrow, sans body), avatar with an
-  offset disc, rounded link buttons tinted with each brand color on hover, sun
-  and moon toggle.
+  offset disc, sun and moon toggle.
+- Links sit in rounded rows split by hairline dividers: GitHub and Google
+  Scholar, LinkedIn and Instagram, then X, Discord, and Telegram. App
+  Automaton and Mocubix follow on rows of their own, each with its tagline,
+  their icons and names lined up on shared subgrid columns. Each link takes
+  its name's width plus an equal share of the row, and a row too narrow for
+  its names wraps. On hover a link fills with a capsule tinted in its brand
+  color and a corner arrow flies in. Touch screens leave the arrow out.
 - Link icons are hand-drawn inline SVG on a 24 grid with a 1.5 stroke. They
   draw in on load and play a gesture on hover or focus.
 - Background: a tropical garden drawn as a botanical plate, with ink contours

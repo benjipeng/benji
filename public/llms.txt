@@ -19,3 +19,5 @@
 
 - [benji.renocrypt.com](https://benji.renocrypt.com/): Benji Peng's experimental contact card
 - [AppCubic](https://www.appcubic.com/)
+- [App Automaton](https://appautomaton.com/): an open workshop for coding agents, by AppCubic
+- [Mocubix](https://mocubix.renocrypt.com/): Benji Peng's seven ways a page can move, and a lexicon of 41 named interface effects
