@@ -36,6 +36,9 @@ Benji Peng's professional contact card at `benji.appcubic.com`, published from
   `font: -apple-system-body` is supported, draws the figure and paper
   unfiltered and the washes without blur there. `benji.webp` stays for the
   JSON-LD image.
+- The footer's first line pairs the copyright with `benji@appcubic.com`, a
+  mailto link with a small envelope whose flap opens on hover. On screens too
+  narrow for one line the address takes its own line.
 - Page utilities sit in the top corners: a `</>` source code link to this
   repository on the left, the sun and moon toggle on the right.
 - Background: a garden drawn as a botanical plate, with ink contours (thin on

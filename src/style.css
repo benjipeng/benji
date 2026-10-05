@@ -429,10 +429,62 @@ footer p {
 footer::before {
   content: "";
   position: absolute;
-  inset: 0 calc(50% - 13rem);
+  inset: 0 max(0px, calc(50% - 17rem));
   z-index: -1;
   background: radial-gradient(closest-side, var(--bg) 42%, color-mix(in srgb, var(--bg) 72%, transparent) 62%, color-mix(in srgb, var(--bg) 30%, transparent) 82%, transparent);
   pointer-events: none;
+}
+
+/* The address follows the copyright after a dot, or takes its own line when the two don't fit. */
+footer .colophon {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 0.55rem;
+}
+
+footer .colophon > * {
+  white-space: nowrap;
+}
+
+footer .colophon > * + *::before {
+  content: "·";
+  margin-right: 0.55rem;
+  color: var(--muted);
+}
+
+@media (max-width: 24rem) {
+  footer .colophon > * + *::before {
+    content: none;
+  }
+}
+
+.mail svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  margin-right: 0.3rem;
+  vertical-align: -0.17em;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mail-flap {
+  transform-origin: 12px 7.5px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mail-flap {
+    transition: transform 0.35s ease;
+  }
+
+  .mail:hover .mail-flap,
+  .mail:focus-visible .mail-flap {
+    transform: scaleY(-0.7);
+  }
 }
 
 footer .attribution {
